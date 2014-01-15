@@ -1,0 +1,44 @@
+<div class="topcoat-navigation-bar">
+    
+        <div class="topcoat-navigation-bar__item left quarter">
+            <a id="slide-menu-button" class="topcoat-icon-button--quiet slide-menu-button">
+                <img class="topcoat-icon" src="img/hamburger_light.png" />  
+            </a>
+        </div>
+
+        <div class="topcoat-navigation-bar__item center half">
+            <h1 class="topcoat-navigation-bar__title">Calendar Item</h1>
+        </div>
+   
+</div>
+
+<%= side_nav
+%>
+
+<div class="main-content">
+
+        <h3 class='center'><%= model.title %></h3>
+
+        <div class='center' id="news-item-description">
+            <p>Starting on 
+                <% 
+                    print(model.startDate); 
+                    if(model.startTime.length>0){
+                        print(' at '+model.startTime);
+                    }
+                %> and finishing on 
+                <%
+                    print(model.endDate);
+                    if(model.endTime.length>0){
+                        print(' at '+model.endTime);
+                    }
+                %>
+            </p>
+            
+            <% if(model.content.length>0){
+                    print('<p>More details:'+model.content+'</p>');
+                }
+            %>
+        </div>
+ 
+</div>
