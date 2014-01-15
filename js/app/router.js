@@ -208,7 +208,7 @@ define(function (require) {
         },
                 
         getMessage: function () {
-            
+            alert('in getMessage');
             require(["app/views/Message"], function (WayPay) {
                 that.body.removeClass('left-nav');
                 slider.slidePage(new WayPay().$el);               

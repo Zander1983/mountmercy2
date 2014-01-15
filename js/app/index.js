@@ -20,7 +20,6 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        this.setRegid();
     },
             
     getMessageContent: function() {
@@ -75,9 +74,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        //app.receivedEvent('deviceready');
-        //alert('just before pushNotification');
-        alert('in onDeviceReady');
+
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
@@ -91,9 +88,6 @@ var app = {
             
     goToMessage: function(){
 
-        alert('in goToMessage');
-        
-        //alert('in the message');
         // window.location.hash="message";
         console.log('before require');
         require(["app/views/Message"], function (Message) {
@@ -165,14 +159,49 @@ var app = {
                             
                     });
     },
+    
+    
+    logObject: function(obj){
+        
+        var ind = "";
+        if (arguments.length > 1)
+        {
+            ind = arguments[1];
+        }
+
+        if (typeof obj == "undefined" || obj == null)
+        {
+            console.log("<null>");
+            return;
+        }
+
+        if (typeof obj != "object")
+        {
+            console.log(obj);
+            return;
+        }
+
+        for (var key in obj)
+        {
+            if (typeof obj[key] == "object")
+            {
+                console.log(ind + key + "={");
+                logObject(obj[key], ind + "  ");
+                console.log(ind + "}");
+            }
+            else
+            {
+                console.log(ind + key + "=" + obj[key]);
+            }
+        }
+        
+    },
             
     /*
      * For Android Phones
      */
     onNotificationGCM: function(e) {
      
-        alert('in the onNotificationGCM');
-    
         //var news = new model.NewsCollection();
 
        /* news.fetch({
@@ -234,22 +263,18 @@ var app = {
                 // this is the actual push notification. its format depends on the data model from the push server
                 //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
                 
+               // console.log('e is ');
+               // console.log(this.logObject(e));
+                console.log('setting the title to ');
+                console.log(e.title);
+                console.log('e.message is ');
+                console.log(e.message);
+                
                 this.setMessageTitle(e.title);
                 this.setMessageContent('some content');
-                
-                //alert('before addEventListener');
-               window.location.hash = "message/" 
-               //document.addEventListener('load', this.goToMessage, false);
-               
-                console.log('before require');
-                require(["app/views/Message"], function (Message) {
-                    //that.body.removeClass('left-nav');
-                    console.log('in require');
-                    var PageSlider  = require('app/utils/pageslider');
-                    var slider = new PageSlider($('body'));
-                    slider.slidePage(new Message({test: 'the message'}).$el);    
-                    console.log('end of require');
-                 });
+
+               window.location.hash = "message";
+         
  
                 break;
 
