@@ -259,11 +259,11 @@ var app = {
                 console.log('e is ');
                 console.log(this.logObject(e));
                 console.log('************* e.payload.id is ************');
-                console.log(e.payload.id);
+                console.log(e.payload.article_id);
 
-                this.setArticleId(e.payload.id);
+                this.setArticleId(e.payload.article_id);
 
-                window.location.hash = "message/"+e.payload.id;
+                window.location.hash = "article/"+e.payload.article_id;
          
  
                 break;

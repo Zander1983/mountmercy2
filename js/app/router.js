@@ -27,7 +27,7 @@ define(function (require) {
             "about-us": "getAboutUs",
             "notification": "getNotification",
             "waypay": "getWayPay",
-            "message": "getMessage",
+            "article/:id": "getArticle",
         },
         
         initialize: function() {   
@@ -207,7 +207,7 @@ define(function (require) {
              });
         },
                 
-        getMessage: function (id) {
+        getArticle: function (id) {
             console.log('in getMessage and id is ');
             console.log(id);
              
@@ -220,11 +220,18 @@ define(function (require) {
                 var api_key = storage.getItem('mountmercy_api_key');
              
                 var article = new models.Article({id: id});
+                
+                console.log('fetching the aeticle...');
+                
                 article.fetch({
                     api: true,
                     headers: {device_id:device_id,api_key:api_key},
                     success: function (data) {
+                        console.log('successfully fetched!');
                         slider.slidePage(new Article({model: data}).$el);
+                    },
+                    error: function(){
+                        console.log('failed to fecth artcie');
                     }
                 });
             });
