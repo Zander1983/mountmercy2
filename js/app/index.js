@@ -22,20 +22,13 @@ var app = {
         this.bindEvents();
     },
             
-    getMessageContent: function() {
-        return this.messageContent;
+            
+    setArticleId: function(article_id) {
+        return this.article_id = article_id;
     },
             
-    setMessageContent: function(msg) {
-        this.messageContent = msg;
-    },
-            
-    getMessageTitle: function(msg) {
-        return this.messageTitle = msg;
-    },
-            
-    setMessageTitle: function() {
-        return this.messageTitle;
+    getArticleId: function() {
+        return this.article_id;
     },
     // Bind Event Listeners
     //
@@ -186,7 +179,7 @@ var app = {
             if (typeof obj[key] == "object")
             {
                 console.log(ind + key + "={");
-                logObject(obj[key], ind + "  ");
+                this.logObject(obj[key], ind + "  ");
                 console.log(ind + "}");
             }
             else
@@ -263,17 +256,14 @@ var app = {
                 // this is the actual push notification. its format depends on the data model from the push server
                 //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
                 
-               // console.log('e is ');
-               // console.log(this.logObject(e));
-                console.log('setting the title to ');
-                console.log(e.title);
-                console.log('e.message is ');
-                console.log(e.message);
-                
-                this.setMessageTitle(e.title);
-                this.setMessageContent('some content');
+                console.log('e is ');
+                console.log(this.logObject(e));
+                console.log('************* e.payload.id is ************');
+                console.log(e.payload.id);
 
-               window.location.hash = "message";
+                this.setArticleId(e.payload.id);
+
+                window.location.hash = "message/"+e.payload.id;
          
  
                 break;

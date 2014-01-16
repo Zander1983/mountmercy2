@@ -5,15 +5,15 @@ define(function (require) {
     var $                   = require('jquery'),
         _                   = require('underscore'),
         Backbone            = require('backbone'),
-        tpl                 = require('text!tpl/Message.html'),
+        tpl                 = require('text!tpl/Article.html'),
         side_nav            = require('text!tpl/SideNav.html'),
         template            = _.template(tpl);
 
     return Backbone.View.extend({
 
         initialize: function (options) {
-            console.log('in the Message vuiew and messageTitle is ');
-            console.log(app.getMessageTitle());
+            console.log('in the Article vuiew and messageTitle is ');
+            console.log(app.getArticleTitle());
             this.render();
         },
 

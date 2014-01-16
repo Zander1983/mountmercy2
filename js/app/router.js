@@ -207,12 +207,27 @@ define(function (require) {
              });
         },
                 
-        getMessage: function () {
-            alert('in getMessage');
-            require(["app/views/Message"], function (WayPay) {
-                that.body.removeClass('left-nav');
-                slider.slidePage(new WayPay().$el);               
-             });
+        getMessage: function (id) {
+            console.log('in getMessage and id is ');
+            console.log(id);
+             
+            require(["app/models/article", "app/views/Article"], function (models, Article) {
+                
+                console.log('in the require');
+                
+                var storage = window.localStorage;
+                var device_id = storage.getItem('mountmercy_device_id');
+                var api_key = storage.getItem('mountmercy_api_key');
+             
+                var article = new models.Article({id: id});
+                article.fetch({
+                    api: true,
+                    headers: {device_id:device_id,api_key:api_key},
+                    success: function (data) {
+                        slider.slidePage(new Article({model: data}).$el);
+                    }
+                });
+            });
         },
                 
         getAboutUs: function () {
