@@ -15,7 +15,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getNews",
+            "": "getWayPay",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
@@ -38,7 +38,7 @@ define(function (require) {
 
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {         
-                    
+
                 if(options.api==true){
                     //172.16.22.68
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
@@ -50,10 +50,12 @@ define(function (require) {
    
                     }
                     else{
-                        //options.url = "http://localhost/schoolspace/mountmercy/assets/www/scripts" + options.url
+                        //options.url = "http://localhost/schoolspace/cli/mountmercy2/www/scripts" + options.url
                         options.url = "http://www.test.webintelligence.ie/scripts" + options.url
                     }
                 }
+  
+   
            });
 
         },
@@ -66,7 +68,7 @@ define(function (require) {
                       
 
         getNews: function (id) {
-    
+ 
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
        
                 if(typeof(news)==='undefined' || news===null){

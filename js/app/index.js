@@ -22,20 +22,13 @@ var app = {
         this.bindEvents();
     },
             
-            
-    setArticleId: function(article_id) {
-        return this.article_id = article_id;
-    },
-            
-    getArticleId: function() {
-        return this.article_id;
-    },
+  
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        
+
         document.addEventListener('deviceready', this.onDeviceReady, false);
        // document.addEventListener('deviceready', this.registerDevice, false);
     },
@@ -62,12 +55,107 @@ var app = {
             } 
             
     },*/
+    
+    
+    stackTrace: function(){
+      
+          var err = new Error();
+            return err.stack;
+        
+    },
+    
+    /*
+     * This function registers the device with the server, and stores the device id and the api key.
+     * This should only ever execute once. 
+     */
+    registerDeviceWithServer: function(e){
+
+            
+            require(["app/models/device"], function (model) {
+
+                    console.log('******in require******');
+
+                    var deviceModel = new model.Device();
+                    var deviceDetails = [];
+
+                    deviceDetails.project_title = 'mountmercy';
+                    deviceDetails.platform = window.device.platform;
+                    //deviceDetails.platform = 'android';
+
+                    console.log('******before the fucking save******');
+
+                    deviceModel.save(deviceDetails, 
+                        {                                    
+                        api: true,
+                        headers :{device_id:"63843",
+                        api_key:"hv7Vgd4jsbb"},
+                        success: function (data) {
+                            console.log('successfuly registered device');
+                            var device_id = data.id;
+                            var api_key = data.get('api_key');
+                            window.localStorage.setItem('mountmercy_device_id', device_id);
+                            window.localStorage.setItem('mountmercy_api_key', api_key);
+                            //now update the Reg Id
+                            console.log('about to update...');
+                            app.updateRegId(device_id, api_key, e);
+                        },
+                        error:   function(model, xhr, options){
+                           console.log('registerDeviceWithServer failed save, responseText is : ');
+                           console.log(xhr.responseText);
+  
+                        },
+                    });
+            });
+        
+    },
+    
+    
+    updateRegId: function(device_id, api_key, e){
+        
+            console.log('in updateRegId');
+        
+            if(typeof(device_id)!=='undefined' && device_id!==null){
+            //so already have device_id, therefore update the reg_id
+            
+                require(["app/models/device"], function (model) {
+
+                        var deviceModel = new model.Device({id:device_id});
+                        var deviceDetails = [];
+
+                        deviceDetails.reg_id = e.regid;
+
+                        console.log('before update');
+                        deviceModel.save(deviceDetails, 
+                            {                                    
+                            api: true,
+                            headers :{device_id:device_id,
+                            api_key:api_key},
+                            success: function (data) {
+                               // alert('in the success, registerd reg id');   
+                               console.log('sucessfully updated Reg Id');
+                            },
+                            error:   function(model, xhr, options){
+                              // alert('in Error');
+                               console.log('failed to update, details: ');
+                               console.log(xhr.responseText);
+                            },
+                        });
+
+                    });
+            }
+        
+    },
+    
+ 
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 
+        //app.registerDeviceWithServer();
+      
+      
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
@@ -78,21 +166,7 @@ var app = {
         }
 
     },
-            
-    goToMessage: function(){
 
-        // window.location.hash="message";
-        console.log('before require');
-        require(["app/views/Message"], function (Message) {
-            //that.body.removeClass('left-nav');
-            console.log('in require');
-            var PageSlider  = require('app/utils/pageslider');
-            var slider = new PageSlider($('body'));
-            slider.slidePage(new Message({test: 'the message'}).$el);    
-            console.log('end of require');
-         });
-
-    },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         /*
@@ -144,7 +218,6 @@ var app = {
                                     window.localStorage.setItem('mountmercy_api_key', data.get('api_key'));
                                 },
                                 error:   function(model, xhr, options){
-                                   //alert('in Error');
                                    console.log('error details are: ');
                                    console.log(xhr.responseText);
                                 },
@@ -211,44 +284,27 @@ var app = {
             case 'registered':
                 if ( e.regid.length > 0 )
                 {
-
+     
                     var device_id = window.localStorage.getItem('mountmercy_device_id');
-            
-                    if(typeof(device_id)==='undefined' || device_id===null){
+                    var api_key = window.localStorage.getItem('mountmercy_api_key');
+ 
                
-                        //alert('in registered and id is '+e.regid);
-                        require(["app/models/device"], function (model) {
-
-                                //alert('in the require');
-
-                                var deviceModel = new model.Device();
-                                var deviceDetails = [];
-
-                                deviceDetails.reg_id = e.regid;
-                                //deviceDetails.reg_id = 'saaf7afadfhkadfh79dasdkh';
-                                deviceDetails.project_title = 'mountmercy';
-                                deviceDetails.platform = 'android';
-
-                                //alert('in the save');
-                                deviceModel.save(deviceDetails, 
-                                    {                                    
-                                    api: true,
-                                    headers :{device_id:"63843",
-                                    api_key:"hv7Vgd4jsbb"},
-                                    success: function (data) {
-                                       // alert('in the success');
-                                        window.localStorage.setItem('mountmercy_device_id', data.id);
-                                        window.localStorage.setItem('mountmercy_api_key', data.get('api_key'));
-                                    },
-                                    error:   function(model, xhr, options){
-                                      // alert('in Error');
-                                       console.log('error details are: ');
-                                       console.log(xhr.responseText);
-                                    },
-                                });
-
-                        });
+                    if(typeof(device_id)==='undefined' || device_id===null){
+                        //we dont have a device id so register it and save to local storage. 
+                        //should only ever enter here once     
+                        
+                        console.log('in the if');
+                        this.registerDeviceWithServer(e);                      
                     }
+                    else{
+                        //se we have already registered device on server. Now update reg_id
+                        
+                        this.updateRegId(device_id, api_key, e);
+                        
+                    }
+                    
+
+                    
                 }
                 break;
 
@@ -260,8 +316,6 @@ var app = {
                 console.log(this.logObject(e));
                 console.log('************* e.payload.id is ************');
                 console.log(e.payload.article_id);
-
-                this.setArticleId(e.payload.article_id);
 
                 window.location.hash = "article/"+e.payload.article_id;
          
