@@ -15,7 +15,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getWayPay",
+            "": "getNews",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
@@ -42,16 +42,28 @@ define(function (require) {
                 if(options.api==true){
                     //172.16.22.68
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
-                    options.url = "http://www.test.webintelligence.ie/device_api" + options.url;
+                    
+                    if(options.update_notification==true){
+                       options.url = "http://pushcloud.schoolspace.ie/update_notification" + options.url+"";                        
+                    }
+                    else{
+                        options.url = "http://pushcloud.schoolspace.ie" + options.url;                        
+                    }
+                    
 
+
+                    console.log('in api true and options.url is ');
+                    console.log(options.url);
+                    
                 }
                 else{
                     if(options.full_url==true){
    
                     }
                     else{
+                        //this is when testing in a browser
                         //options.url = "http://localhost/schoolspace/cli/mountmercy2/www/scripts" + options.url
-                        options.url = "http://www.test.webintelligence.ie/scripts" + options.url
+                        options.url = "http://localhost/schoolspace/cli/mountmercy2/www/scripts" + options.url
                     }
                 }
   
@@ -175,28 +187,36 @@ define(function (require) {
             
             require(["app/models/device", "app/views/Notification"], function (model, Notification) {
                 
-                    
-                    var storage = window.localStorage;
-                    var device_id = storage.getItem('mountmercy_device_id');
-                    var api_key = storage.getItem('mountmercy_api_key');
-                    
-                    
-                    deviceModel = new model.Device({id:device_id});
+                  if(typeof(deviceModel)==='undefined' || deviceModel===null){
 
-                    if(typeof(device_id)==='undefined' || device_id===null || typeof(api_key)==='undefined' || api_key===null){
+                        var storage = window.localStorage;
+                        var device_id = storage.getItem('mountmercy_device_id');
+                        var api_key = storage.getItem('mountmercy_api_key');
+
+                        deviceModel = new model.Device({id:device_id});
+
+                        if(typeof(device_id)==='undefined' || device_id===null || typeof(api_key)==='undefined' || api_key===null){
+                            that.body.removeClass('left-nav');
+                            alert('There was a problem with notifications, please contact the developer');
+                            window.location.hash = "news";
+                        }
+                        else{
+                            deviceModel.fetch({
+                                api: true,
+                                headers: {device_id:device_id,api_key:api_key},        
+                                success: function (data) {
+                                    that.body.removeClass('left-nav');
+                                    slider.slidePage(new Notification({model: data, storage:storage}).$el);                          
+                                }
+                            });
+                        }
+                    
+                  }else{    
+                        console.log('in the else');
                         that.body.removeClass('left-nav');
-                        slider.slidePage(new Notification({model: deviceModel, storage:storage}).$el);
-                    }
-                    else{
-                        deviceModel.fetch({
-                            api: true,
-                            headers: {device_id:device_id,api_key:api_key},        
-                            success: function (data) {
-                                that.body.removeClass('left-nav');
-                                slider.slidePage(new Notification({model: data, storage:storage}).$el);                          
-                            }
-                        });
-                    }
+                        slider.slidePage(new Notification({model: deviceModel, storage:storage}).$el);    
+                  }
+
        
              });
         },
