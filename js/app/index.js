@@ -105,12 +105,13 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-
+        alert('in onDeviceReady');
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
         }
         else{
+            alert('registering with apple');
             //so its apple
              pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
@@ -132,7 +133,9 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
-        
+        alert('in token handler, sending status to console');
+        console.log(status);
+        /*
                     require(["app/models/device"], function (model) {
                         
                             
@@ -159,7 +162,7 @@ var app = {
                                 },
                             });
                             
-                    });
+                    });*/
     },
     
       
@@ -213,6 +216,7 @@ var app = {
     
     
     onNotificationAPN: function(event) {
+        alert('in onNotificationAPN');
         var pushNotification = window.plugins.pushNotification;
         if (event.alert) {
             navigator.notification.alert(event.alert);

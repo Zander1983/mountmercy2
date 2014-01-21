@@ -34,6 +34,9 @@ define(function (require) {
             that = this;
             that.body = $('body');
             
+            console.log('in initialize and body is ');
+            console.log(that.body);
+            
             this.bind( "route", this.routeChange);
 
 
@@ -87,8 +90,10 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
+                            console.log('in getNews and body is ');
+                            console.log(that.body);
                             that.body.removeClass('left-nav');
                             slider.slidePage(new NewsList({collection: collection}).$el);                          
                         }
@@ -113,6 +118,8 @@ define(function (require) {
                     calendar.fetch({
                         full_url: true,
                         success: function (collection) {
+                            console.log('body is ');
+                            console.log(that.body);
                             that.body.removeClass('left-nav');
                             slider.slidePage(new CalendarList({collection: collection}).$el);                          
                         }
@@ -230,12 +237,8 @@ define(function (require) {
         },
                 
         getArticle: function (id) {
-            console.log('in getMessage and id is ');
-            console.log(id);
              
             require(["app/models/article", "app/views/Article"], function (models, Article) {
-                
-                console.log('in the require');
                 
                 var storage = window.localStorage;
                 var device_id = storage.getItem('mountmercy_device_id');
@@ -243,13 +246,10 @@ define(function (require) {
              
                 var article = new models.Article({id: id});
                 
-                console.log('fetching the aeticle...');
-                
                 article.fetch({
                     api: true,
                     headers: {device_id:device_id,api_key:api_key},
                     success: function (data) {
-                        console.log('successfully fetched!');
                         slider.slidePage(new Article({model: data}).$el);
                     },
                     error: function(){
