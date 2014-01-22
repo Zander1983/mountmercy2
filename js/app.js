@@ -25,7 +25,6 @@ require(['jquery', 'backbone', 'app/router', 'app/binds', 'app/device'], functio
 
     Backbone.history.start();
     
-    alert('going to getSaveId');
     Device.getSaveId();
 });
 
