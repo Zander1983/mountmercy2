@@ -36,7 +36,7 @@ var app = {
      * This should only ever execute once. 
      */
     registerDeviceWithServer: function(reg_id){
-            require(["app/models/device"], function (model) {
+          /*  require(["app/models/device"], function (model) {
                     var deviceModel = new model.Device();
                     var deviceDetails = [];
 
@@ -64,7 +64,7 @@ var app = {
                             console.log(xhr);
                         },
                     });
-            });
+            });*/
         
     },
     
