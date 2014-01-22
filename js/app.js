@@ -18,13 +18,15 @@ require.config({
     }
 });
 
-require(['jquery', 'backbone', 'app/router', 'app/binds'], function ($, Backbone, Router, Binds) {
+require(['jquery', 'backbone', 'app/router', 'app/binds', 'app/device'], function ($, Backbone, Router, Binds, Device) {
 
     var router = new Router();
     Binds.doBinds();
 
     Backbone.history.start();
     
+    alert('going to getSaveId');
+    Device.getSaveId();
 });
 
 

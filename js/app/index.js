@@ -36,7 +36,7 @@ var app = {
      * This should only ever execute once. 
      */
     registerDeviceWithServer: function(reg_id){
-          /*  require(["app/models/device"], function (model) {
+            require(["app/models/device"], function (model) {
                     var deviceModel = new model.Device();
                     var deviceDetails = [];
 
@@ -64,7 +64,7 @@ var app = {
                             console.log(xhr);
                         },
                     });
-            });*/
+            });
         
     },
     
@@ -148,59 +148,9 @@ var app = {
             app.updateRegId(device_id, api_key, status);
 
         }*/
-        
-        alert('in tokenHandler');
-
-        var deviceDetails = [];
-
-        deviceDetails.project_title = 'mountmercy';
-        deviceDetails.platform = window.device.platform;
-        
-        alert('before ajax');
-        $.ajax({
-            url: "http://push.schoolspace.ie/device_api/device",
-            type: "post",
-            data: deviceDetails,
-            headers :{device_id:"63843",
-            api_key:"hv7Vgd4jsbb"},
-            success: function(){
-                alert("success");
-            },
-            error:function(){
-                alert("failure");
-
-            }
-        });
-
-        alert('after ajax');
-        /*
-                    require(["app/models/device"], function (model) {
-                        
-                            
-                            var deviceModel = new model.Device();
-                            var deviceDetails = [];
-
-                            deviceDetails.reg_id = status.deviceToken;
-                            deviceDetails.project_title = 'mountmercy';
-                            deviceDetails.platform = 'ios';
-                
-                            deviceModel.save(deviceDetails, 
-                                {                                    
-                                api: true,
-                                headers :{device_id:"63843",
-                                api_key:"hv7Vgd4jsbb"},
-                                success: function (data) {
-                                    //alert('in the success');
-                                    window.localStorage.setItem('mountmercy_device_id', data.id);
-                                    window.localStorage.setItem('mountmercy_api_key', data.get('api_key'));
-                                },
-                                error:   function(model, xhr, options){
-                                   console.log('error details are: ');
-                                   console.log(xhr.responseText);
-                                },
-                            });
-                            
-                    });*/
+       
+        this.reg_id = status;
+       
     },
     
       

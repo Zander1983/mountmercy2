@@ -266,6 +266,8 @@ define(function (require) {
                 that.body.removeClass('left-nav');
                 slider.slidePage(new AboutUs().$el);               
              });*/
+            
+            /*
             console.log('going to ajax');
             
             var deviceDetails = [];
@@ -285,7 +287,7 @@ define(function (require) {
                     alert("failure");
 
                 }
-            });
+            });*/
             
         },
     });
