@@ -261,10 +261,31 @@ define(function (require) {
                 
         getAboutUs: function () {
             
+            /*
             require(["app/views/AboutUs"], function (AboutUs) { 
                 that.body.removeClass('left-nav');
                 slider.slidePage(new AboutUs().$el);               
-             });
+             });*/
+            console.log('going to ajax');
+            
+            var deviceDetails = [];
+
+            deviceDetails.project_title = 'mountmercy';
+            deviceDetails.platform = 'test';
+            $.ajax({
+                url: "http://push.schoolspace.ie/device_api/device",
+                type: "post",
+                data: deviceDetails,
+                headers :{device_id:"63843",
+                api_key:"hv7Vgd4jsbb"},
+                success: function(){
+                    alert("success");
+                },
+                error:function(){
+                    alert("failure");
+
+                }
+            });
             
         },
     });
