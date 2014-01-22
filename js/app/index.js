@@ -60,8 +60,8 @@ var app = {
                         },
                         error:   function(model, xhr, options){
                             alert('there was an error');
-                            console.log('***********responseText is *******************');
-                            console.log(xhr.responseText);
+                            console.log('***********error is *******************');
+                            console.log(xhr);
                         },
                     });
             });

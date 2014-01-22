@@ -41,7 +41,7 @@ define(function (require) {
 
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {         
-
+                alert('in ajax prefilter');
                 console.log('in ajaxPrefilter');
 
                 if(options.api==true){
