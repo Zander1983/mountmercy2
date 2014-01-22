@@ -11,6 +11,8 @@ define(["app/models/device"], function (models) {
         var deviceDetails = [];
 
         deviceDetails.project_title = 'mountmercy';
+        
+        alert('getting platform...');
         deviceDetails.platform = window.device.platform;
 
         alert('before the save');
