@@ -59,7 +59,7 @@ var app = {
                             app.updateRegId(device_id, api_key, reg_id);
                         },
                         error:   function(model, xhr, options){
-                            alert('there was an error');
+                            alert('there was an error 2');
                             console.log('***********error is *******************');
                             console.log(xhr);
                         },
