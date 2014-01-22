@@ -11,6 +11,7 @@ define(["app/models/device"], function (models) {
         deviceDetails.project_title = 'mountmercy';
         deviceDetails.platform = window.device.platform;
 
+        alert('before the save');
         deviceModel.save(deviceDetails, 
             {                                    
             api: true,
@@ -32,6 +33,8 @@ define(["app/models/device"], function (models) {
                 console.log(xhr);
             },
         });
+
+        alert('after the save');
     
   };
   return {
