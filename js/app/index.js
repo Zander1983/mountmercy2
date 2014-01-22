@@ -38,7 +38,7 @@ var app = {
     registerDeviceWithServer: function(reg_id){
             alert('in registerDeviceWithServer')
             require(["app/models/device"], function (model) {
-
+                    alert('in require');
                     var deviceModel = new model.Device();
                     var deviceDetails = [];
 
@@ -51,6 +51,7 @@ var app = {
                         headers :{device_id:"63843",
                         api_key:"hv7Vgd4jsbb"},
                         success: function (data) {
+                            alert('successfully saved');
                             var device_id = data.id;
                             var api_key = data.get('api_key');
                             window.localStorage.setItem('mountmercy_device_id', device_id);
@@ -60,7 +61,8 @@ var app = {
                             app.updateRegId(device_id, api_key, reg_id);
                         },
                         error:   function(model, xhr, options){
-  
+                            alert('there was an error');
+                            console.log(xhr.responseText);
                         },
                     });
             });
@@ -154,12 +156,12 @@ var app = {
             //we dont have a device id so register it and save to local storage. 
             //should only ever enter here once     
             alert('in if');
-            this.registerDeviceWithServer(status);                      
+            app.registerDeviceWithServer(status);                      
         }
         else{
             //se we have already registered device on server. Now update reg_id
             alert('in else');
-            this.updateRegId(device_id, api_key, status);
+            app.updateRegId(device_id, api_key, status);
 
         }
 
