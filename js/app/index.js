@@ -140,22 +140,25 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
-        alert('in token handler, sending status to console');
-        console.log(status);
+        alert('in token handler,  status is ');
+        alert(status);
 
+        alert('getting device id ');
         var device_id = window.localStorage.getItem('mountmercy_device_id');
         var api_key = window.localStorage.getItem('mountmercy_api_key');
 
-
+        alert('device id is ');
+        alert(device_id);
+        
         if(typeof(device_id)==='undefined' || device_id===null){
             //we dont have a device id so register it and save to local storage. 
             //should only ever enter here once     
-
+            alert('in if');
             this.registerDeviceWithServer(status);                      
         }
         else{
             //se we have already registered device on server. Now update reg_id
-
+            alert('in else');
             this.updateRegId(device_id, api_key, status);
 
         }
