@@ -148,7 +148,8 @@ var app = {
             app.updateRegId(device_id, api_key, status);
 
         }*/
-       
+        alert('in token handler and platform is ');
+        alert(window.device.platform);
         console.log('in tokenHandler and window.device.platform is ');
         console.log(window.device.platform);
        
