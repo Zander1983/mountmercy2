@@ -15,7 +15,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getNews",
+            "": "getAboutUs",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
@@ -42,19 +42,19 @@ define(function (require) {
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {         
 
+                console.log('in ajaxPrefilter');
+
                 if(options.api==true){
                     //172.16.22.68
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
                     
                     if(options.update_notification==true){
-                       options.url = "http://pushcloud.schoolspace.ie/update_notification" + options.url+"";                        
+                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";                        
                     }
                     else{
-                        options.url = "http://pushcloud.schoolspace.ie" + options.url;                        
+                        options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
                     }
                     
-
-
                     console.log('in api true and options.url is ');
                     console.log(options.url);
                     
