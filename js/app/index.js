@@ -36,9 +36,7 @@ var app = {
      * This should only ever execute once. 
      */
     registerDeviceWithServer: function(reg_id){
-            alert('in registerDeviceWithServer')
             require(["app/models/device"], function (model) {
-                    alert('in require');
                     var deviceModel = new model.Device();
                     var deviceDetails = [];
 
@@ -62,6 +60,7 @@ var app = {
                         },
                         error:   function(model, xhr, options){
                             alert('there was an error');
+                            console.log('***********responseText is *******************');
                             console.log(xhr.responseText);
                         },
                     });
@@ -107,20 +106,12 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        alert('in onDeviceReady');
-        
-        console.log('************in onDeviceReady and before the require*****************');
-        require(["app/models/device"], function (model) {
-            console.log('-------in onDeviceReady and in the reqire------- and model is ');
-            console.log(model);
-        });
-        
+ 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
         }
         else{
-            alert('registering with apple');
             //so its apple
              pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
@@ -142,25 +133,17 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
-        alert('in token handler,  status is ');
-        alert(status);
 
-        alert('getting device id ');
         var device_id = window.localStorage.getItem('mountmercy_device_id');
         var api_key = window.localStorage.getItem('mountmercy_api_key');
-
-        alert('device id is ');
-        alert(device_id);
         
         if(typeof(device_id)==='undefined' || device_id===null){
             //we dont have a device id so register it and save to local storage. 
             //should only ever enter here once     
-            alert('in if');
             app.registerDeviceWithServer(status);                      
         }
         else{
             //se we have already registered device on server. Now update reg_id
-            alert('in else');
             app.updateRegId(device_id, api_key, status);
 
         }
