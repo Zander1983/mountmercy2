@@ -149,6 +149,9 @@ var app = {
 
         }*/
        
+        console.log('in tokenHandler and window.device.platform is ');
+        console.log(window.device.platform);
+       
         this.reg_id = status;
        
     },

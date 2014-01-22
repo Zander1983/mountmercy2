@@ -6,13 +6,13 @@ define(["app/models/device"], function (models) {
     
         var deviceModel = new models.Device();
         
-        alert('got the device model');
-        
         var deviceDetails = [];
 
         deviceDetails.project_title = 'mountmercy';
         
-        alert('getting platform...');
+        console.log('window.device.platform is ');
+        console.log(window.device.platform);
+        
         deviceDetails.platform = window.device.platform;
 
         alert('before the save');
