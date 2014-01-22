@@ -152,10 +152,6 @@ var app = {
             app.updateRegId(device_id, api_key, status);
 
         }*/
-        alert('in token handler and platform is ');
-        alert(window.device.platform);
-        console.log('in tokenHandler and window.device.platform is ');
-        console.log(window.device.platform);
        
         this.reg_id = status;
        
@@ -173,23 +169,10 @@ var app = {
             case 'registered':
                 if ( e.regid.length > 0 )
                 {
-     
-                    var device_id = window.localStorage.getItem('mountmercy_device_id');
-                    var api_key = window.localStorage.getItem('mountmercy_api_key');
- 
-               
-                    if(typeof(device_id)==='undefined' || device_id===null){
-                        //we dont have a device id so register it and save to local storage. 
-                        //should only ever enter here once     
-    
-                        this.registerDeviceWithServer(e.reg_id);                      
-                    }
-                    else{
-                        //se we have already registered device on server. Now update reg_id
-                        
-                        this.updateRegId(device_id, api_key, e.reg_id);
-                        
-                    }
+                    this.reg_id = e.reg_id;
+                    require(['app/device'], function (Device) {
+                        Device.checkDeviceDetails();
+                    });
                     
                 }
                 break;
