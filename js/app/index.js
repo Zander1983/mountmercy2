@@ -149,16 +149,17 @@ var app = {
 
         }*/
         
+        alert('in tokenHandler');
 
         var deviceDetails = [];
 
         deviceDetails.project_title = 'mountmercy';
         deviceDetails.platform = window.device.platform;
         
+        alert('before ajax');
         $.ajax({
             url: "http://push.schoolspace.ie/device_api/device",
             type: "post",
-            dataType: 'json',
             data: deviceDetails,
             headers :{device_id:"63843",
             api_key:"hv7Vgd4jsbb"},
@@ -171,6 +172,7 @@ var app = {
             }
         });
 
+        alert('after ajax');
         /*
                     require(["app/models/device"], function (model) {
                         
