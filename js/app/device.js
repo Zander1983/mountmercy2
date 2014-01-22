@@ -6,6 +6,8 @@ define(["app/models/device"], function (models) {
     
         var deviceModel = new models.Device();
         
+        alert('got the device model');
+        
         var deviceDetails = [];
 
         deviceDetails.project_title = 'mountmercy';
