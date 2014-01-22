@@ -19,15 +19,15 @@ define(function (require) {
         NewsCollection = Backbone.Collection.extend({
 
             model: News,
-            //url: 'http://mountmercy.scoilnet.ie/blog/feed/',
+            url: 'http://mountmercy.scoilnet.ie/blog/feed/',
             
             //This is used so I can test on a browser. On a device, use the direct link
           
-          
+            /*
             url: function(){
                  console.log('in news');
                     return "/school-proxy.php?type=news";
-                 },
+                 },*/
             
         
             parse: function (data) {

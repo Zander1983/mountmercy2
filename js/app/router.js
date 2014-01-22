@@ -90,7 +90,7 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             console.log('in getNews and body is ');
                             console.log(that.body);

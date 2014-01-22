@@ -35,7 +35,7 @@ var app = {
      * This function registers the device with the server, and stores the device id and the api key.
      * This should only ever execute once. 
      */
-    registerDeviceWithServer: function(e){
+    registerDeviceWithServer: function(reg_id){
             
             require(["app/models/device"], function (model) {
 
@@ -57,7 +57,7 @@ var app = {
                             window.localStorage.setItem('mountmercy_api_key', api_key);
                             
                             //now update the Reg Id
-                            app.updateRegId(device_id, api_key, e);
+                            app.updateRegId(device_id, api_key, reg_id);
                         },
                         error:   function(model, xhr, options){
   
@@ -68,7 +68,7 @@ var app = {
     },
     
     
-    updateRegId: function(device_id, api_key, e){
+    updateRegId: function(device_id, api_key, reg_id){
         
             if(typeof(device_id)!=='undefined' && device_id!==null){
             
@@ -77,7 +77,7 @@ var app = {
                         var deviceModel = new model.Device({id:device_id});
                         var deviceDetails = [];
 
-                        deviceDetails.reg_id = e.regid;
+                        deviceDetails.reg_id = reg_id;
 
                         deviceModel.save(deviceDetails, 
                             {                                    
@@ -106,6 +106,13 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         alert('in onDeviceReady');
+        
+        console.log('************in onDeviceReady and before the require*****************');
+        require(["app/models/device"], function (model) {
+            console.log('-------in onDeviceReady and in the reqire------- and model is ');
+            console.log(model);
+        });
+        
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
@@ -135,6 +142,24 @@ var app = {
     tokenHandler:function(status) {
         alert('in token handler, sending status to console');
         console.log(status);
+
+        var device_id = window.localStorage.getItem('mountmercy_device_id');
+        var api_key = window.localStorage.getItem('mountmercy_api_key');
+
+
+        if(typeof(device_id)==='undefined' || device_id===null){
+            //we dont have a device id so register it and save to local storage. 
+            //should only ever enter here once     
+
+            this.registerDeviceWithServer(status);                      
+        }
+        else{
+            //se we have already registered device on server. Now update reg_id
+
+            this.updateRegId(device_id, api_key, status);
+
+        }
+
         /*
                     require(["app/models/device"], function (model) {
                         
@@ -186,12 +211,12 @@ var app = {
                         //we dont have a device id so register it and save to local storage. 
                         //should only ever enter here once     
     
-                        this.registerDeviceWithServer(e);                      
+                        this.registerDeviceWithServer(e.reg_id);                      
                     }
                     else{
                         //se we have already registered device on server. Now update reg_id
                         
-                        this.updateRegId(device_id, api_key, e);
+                        this.updateRegId(device_id, api_key, e.reg_id);
                         
                     }
                     

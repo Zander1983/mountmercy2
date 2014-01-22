@@ -4,6 +4,7 @@ define(function (require) {
 
     var $                   = require('jquery'),
         Backbone            = require('backbone'),
+        Moment              = require('Moment.moment'),
         id=1,
         xml,
         parsed = [], 
@@ -74,12 +75,12 @@ define(function (require) {
                     
                     var dateObj = new Date(startDate);
                  
-                    month = moment.monthsShort('-MMM-', dateObj.getMonth());
+                    month = Moment.moment.monthsShort('-MMM-', dateObj.getMonth());
                     date = dateObj.getDate();    
                     
                     //convert to nice time
-                    startDate = moment(startDate).format("MMM Do YY");
-                    endDate = moment(endDate).format("MMM Do YY");
+                    startDate = Moment.moment(startDate).format("MMM Do YY");
+                    endDate = Moment.moment(endDate).format("MMM Do YY");
                     
                     parsed.push({id:id, title: title, content:content, 
                                 month:month, date:date,
