@@ -134,6 +134,7 @@ var app = {
      */        
     tokenHandler:function(status) {
 
+        /*
         var device_id = window.localStorage.getItem('mountmercy_device_id');
         var api_key = window.localStorage.getItem('mountmercy_api_key');
         
@@ -146,7 +147,29 @@ var app = {
             //se we have already registered device on server. Now update reg_id
             app.updateRegId(device_id, api_key, status);
 
-        }
+        }*/
+        
+
+        var deviceDetails = [];
+
+        deviceDetails.project_title = 'mountmercy';
+        deviceDetails.platform = window.device.platform;
+        
+        $.ajax({
+            url: "http://push.schoolspace.ie/device_api/device",
+            type: "post",
+            dataType: 'json',
+            data: deviceDetails,
+            headers :{device_id:"63843",
+            api_key:"hv7Vgd4jsbb"},
+            success: function(){
+                alert("success");
+            },
+            error:function(){
+                alert("failure");
+
+            }
+        });
 
         /*
                     require(["app/models/device"], function (model) {
