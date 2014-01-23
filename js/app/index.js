@@ -23,6 +23,41 @@ var app = {
         this.bindEvents();
         
     },
+            
+    logObject: function(obj)
+    {
+        var ind = "";
+        if (arguments.length > 1)
+        {
+            ind = arguments[1];
+        }
+
+        if (typeof obj == "undefined" || obj == null)
+        {
+            console.log("<null>");
+            return;
+        }
+
+        if (typeof obj != "object")
+        {
+            console.log(obj);
+            return;
+        }
+
+        for (var key in obj)
+        {
+            if (typeof obj[key] == "object")
+            {
+                console.log(ind + key + "={");
+                this.logObject(obj[key], ind + "  ");
+                console.log(ind + "}");
+            }
+            else
+            {
+                console.log(ind + key + "=" + obj[key]);
+            }
+        }
+    },
     
     /*
     testDevice: function(){
@@ -256,6 +291,10 @@ var app = {
     
     onNotificationAPN: function(event) {
         alert('in onNotificationAPN');
+        
+        console.log('*******event is ************');
+        console.log(app.logObject(event));
+        
         var pushNotification = window.plugins.pushNotification;
         if (event.alert) {
             navigator.notification.alert(event.alert);
