@@ -1,5 +1,3 @@
-console.log('in the fucking require.config ');
-
 require.config({
 
     baseUrl: 'js/lib',

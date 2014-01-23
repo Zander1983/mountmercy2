@@ -3,7 +3,7 @@ define(function (require) {
     "use strict";
 
     var Backbone            = require('backbone'),
-        Moment              = require('Moment.moment'),
+        Moment              = require('moment'),
         id=1,
         xml,
         parsed = [], 
@@ -51,10 +51,11 @@ define(function (require) {
                     endDateTime = when[0]['attributes']['endTime']['value'];  
                     
                     var t = startDateTime.indexOf("T");
-                    if(t !== -1){
+                    if(t !== -1){                      
                         //so there is a time, extract it
-                        startTime = startDateTime.substring(t+1,t+6);
-                        startDate = startDateTime.substring(0,t-1);
+                        startTime = startDateTime.substring(t+1,t+6);                    
+                        startDate = startDateTime.substring(0,t);
+
                     }
                     else{
                         //no time, so set the date
@@ -65,7 +66,7 @@ define(function (require) {
                     if(t !== -1){
                         //so there is a time, extract it
                         endTime = endDateTime.substring(t+1,t+6);
-                        endDate = endDateTime.substring(0,t-1);
+                        endDate = endDateTime.substring(0,t);
                     }
                     else{
                         //no time, so set the date
@@ -74,12 +75,12 @@ define(function (require) {
                     
                     var dateObj = new Date(startDate);
                  
-                    month = Moment.moment.monthsShort('-MMM-', dateObj.getMonth());
+ 
+                    month = moment(startDate).format("MMM");
                     date = dateObj.getDate();    
-                    
-                    //convert to nice time
-                    startDate = Moment.moment(startDate).format("MMM Do YY");
-                    endDate = Moment.moment(endDate).format("MMM Do YY");
+      
+                    startDate = moment(startDate).format("MMM Do YY");
+                    endDate = moment(endDate).format("MMM Do YY");
                     
                     parsed.push({id:id, title: title, content:content, 
                                 month:month, date:date,

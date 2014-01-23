@@ -14,7 +14,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getNews",
+            "": "getCalendar",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
@@ -65,8 +65,6 @@ define(function (require) {
                     }
                 }
   
-                alert('in ajax filter and url is ');
-                alert(options.url);
            });
 
         },
@@ -112,7 +110,7 @@ define(function (require) {
                     calendar = new model.CalendarCollection();
                     
                     calendar.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
                             console.log('body is ');
                             console.log(that.body);
