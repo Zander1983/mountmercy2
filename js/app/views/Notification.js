@@ -2,8 +2,7 @@ define(function (require) {
 
     "use strict";
 
-    var $                   = require('jquery'),
-        _                   = require('underscore'),
+    var _                   = require('underscore'),
         Backbone            = require('backbone'),
         device_model        = require('app/models/device'),
         notification_model  = require('app/models/notification'),

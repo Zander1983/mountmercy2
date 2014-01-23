@@ -2,8 +2,7 @@ define(function (require) {
 
     "use strict";
 
-    var $           = require('jquery'),
-        Backbone    = require('backbone'),
+    var Backbone    = require('backbone'),
         PageSlider  = require('app/utils/pageslider'),
     
         slider = new PageSlider($('body')),

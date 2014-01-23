@@ -2,8 +2,7 @@ define(function (require) {
 
     "use strict";
 
-    var $                   = require('jquery'),
-        _                   = require('underscore'),
+    var _                   = require('underscore'),
         Backbone            = require('backbone'),
         tpl                 = require('text!tpl/Contact.html'),
         side_nav                = require('text!tpl/SideNav.html'),
