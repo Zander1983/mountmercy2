@@ -34,29 +34,25 @@ define(function (require) {
             that = this;
             that.body = $('body');
             
-            console.log('in initialize and body is ');
-            console.log(that.body);
-            
             this.bind( "route", this.routeChange);
 
-
-            $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {         
-                alert('in ajax prefilter');
-                console.log('in ajaxPrefilter');
+            $.ajaxPrefilter( function( options, originalOptions, jqXHR ) { 
+                
+                if(options.pure_ajax==true){
+                    return;
+                }
 
                 if(options.api==true){
                     //172.16.22.68
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
                     
                     if(options.update_notification==true){
-                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";                        
+                       //options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
+                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
                     }
                     else{
                         options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
                     }
-                    
-                    console.log('in api true and options.url is ');
-                    console.log(options.url);
                     
                 }
                 else{
@@ -70,7 +66,8 @@ define(function (require) {
                     }
                 }
   
-   
+                alert('in ajax filter and url is ');
+                alert(options.url);
            });
 
         },
@@ -261,33 +258,13 @@ define(function (require) {
                 
         getAboutUs: function () {
             
-            /*
+            
             require(["app/views/AboutUs"], function (AboutUs) { 
                 that.body.removeClass('left-nav');
                 slider.slidePage(new AboutUs().$el);               
-             });*/
+             });
             
-            /*
-            console.log('going to ajax');
             
-            var deviceDetails = [];
-
-            deviceDetails.project_title = 'mountmercy';
-            deviceDetails.platform = 'test';
-            $.ajax({
-                url: "http://push.schoolspace.ie/device_api/device",
-                type: "post",
-                data: deviceDetails,
-                headers :{device_id:"63843",
-                api_key:"hv7Vgd4jsbb"},
-                success: function(){
-                    alert("success");
-                },
-                error:function(){
-                    alert("failure");
-
-                }
-            });*/
             
         },
     });

@@ -9,6 +9,7 @@ define(function (require) {
         Device = Backbone.Model.extend({  
 
             urlRoot: "/device",   
+        
 
         });
 
