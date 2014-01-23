@@ -19,14 +19,12 @@
 var app = {
     // Application Constructor
     initialize: function() {
-
-       //this.testDevice();
         
-         //app.registerDeviceWithServer();
         this.bindEvents();
         
     },
-            
+    
+    /*
     testDevice: function(){
 
         console.log('in testDevice');
@@ -50,7 +48,7 @@ var app = {
                     headers :{device_id:"63843",
                     api_key:"hv7Vgd4jsbb"},
                     success: function (data) {
-                        alert('successfully saved');
+                        //alert('successfully saved');
                         var device_id = data.id;
                         var api_key = data.get('api_key');
                         window.localStorage.setItem('mountmercy_device_id', device_id);
@@ -60,7 +58,7 @@ var app = {
                         //this.updateRegId(device_id, api_key, '');
                     },
                     error:   function(model, xhr, options){
-                        alert('there was an error 2');
+                        //alert('there was an error 2');
                         console.log('***********error is *******************');
                         console.log(xhr);
                     },
@@ -68,42 +66,9 @@ var app = {
 
             }); 
 
-    },
+    },*/
             
-    logObject: function(obj)
-    {
-        var ind = "";
-        if (arguments.length > 1)
-        {
-            ind = arguments[1];
-        }
-
-        if (typeof obj == "undefined" || obj == null)
-        {
-            console.log("<null>");
-            return;
-        }
-
-        if (typeof obj != "object")
-        {
-            console.log(obj);
-            return;
-        }
-
-        for (var key in obj)
-        {
-            if (typeof obj[key] == "object")
-            {
-                console.log(ind + key + "={");
-                this.logObject(obj[key], ind + "  ");
-                console.log(ind + "}");
-            }
-            else
-            {
-                console.log(ind + key + "=" + obj[key]);
-            }
-        }
-    },
+  
   
     // Bind Event Listeners
 
@@ -118,49 +83,7 @@ var app = {
      * This should only ever execute once. 
      */
     registerDeviceWithServer: function(reg_id){
-            
-          
-            //window.device.platform
-           /* 
-        console.log('in testDevice');
-        require(["app/models/device"], function (models) {
-                
-                console.log('in the require device');
-                var deviceModel = new models.Device();
-
-                var deviceDetails = [];
-
-                deviceDetails.project_title = 'mountmercy';
-
-                console.log('in saveRegId ');
-
-                deviceDetails.platform = window.device.platform;
-                //deviceDetails.platform = 'ios';
-
-                deviceModel.save(deviceDetails, 
-                    {                                    
-                    api: true,
-                    headers :{device_id:"63843",
-                    api_key:"hv7Vgd4jsbb"},
-                    success: function (data) {
-                        alert('successfully saved');
-                        var device_id = data.id;
-                        var api_key = data.get('api_key');
-                        window.localStorage.setItem('mountmercy_device_id', device_id);
-                        window.localStorage.setItem('mountmercy_api_key', api_key);
-
-                        //now update the Reg Id
-                        //this.updateRegId(device_id, api_key, '');
-                    },
-                    error:   function(model, xhr, options){
-                        alert('there was an error 2');
-                        console.log('***********error is *******************');
-                        console.log(xhr);
-                    },
-                });
-
-            });*/
-            
+ 
             var url = "http://push.schoolspace.ie/device_api/device";
             //var url = "http://localhost/schoolspace/device_api/device";
            
@@ -172,12 +95,10 @@ var app = {
                 headers :{device_id:"63843",
                 api_key:"hv7Vgd4jsbb"},
                 success: function(data){
-                    alert("success in registerDeviceWithServer and id is");
+                    //alert("success in registerDeviceWithServer and id is");
                     
                     var obj = jQuery.parseJSON(data);
-                    
-                    alert(obj.id);
-                    
+                
                     var device_id = obj.id;
                     var api_key = obj.api_key;
                     window.localStorage.setItem('mountmercy_device_id', device_id);
@@ -187,37 +108,12 @@ var app = {
                     app.updateRegId(device_id, api_key, reg_id);
                 },
                 error:   function(model, xhr, options){
-                    alert('failed in registerDeviceWithServer');
+                    //alert('failed in registerDeviceWithServer');
                     // alert('in Error');
                     console.log('response is : ');
                     console.log(app.logObject(xhr));
                 },
             });
-
-            /*
-            deviceModel.save(deviceDetails, 
-                {                                    
-                api: true,
-                headers :{device_id:"63843",
-                api_key:"hv7Vgd4jsbb"},
-                success: function (data) {
-                    alert('successfully saved');
-                    var device_id = data.id;
-                    var api_key = data.get('api_key');
-                    window.localStorage.setItem('mountmercy_device_id', device_id);
-                    window.localStorage.setItem('mountmercy_api_key', api_key);
-
-                    //now update the Reg Id
-                    app.updateRegId(device_id, api_key, reg_id);
-                },
-                error:   function(model, xhr, options){
-                    alert('there was an error 2');
-                    console.log('***********error is *******************');
-                    console.log(xhr);
-                },
-            });*/
-           
-        
     },
     
     
@@ -236,11 +132,11 @@ var app = {
                 headers :{device_id:device_id,
                 api_key:api_key},
                 success: function(data){
-                    alert("success in updateRegId");
+                    //alert("success in updateRegId");
                     
                 },
                 error:   function(model, xhr, options){
-                    alert('failed in updateRegId');
+                    //alert('failed in updateRegId');
                     // alert('in Error');
                     console.log('response is : ');
                     console.log(app.logObject(xhr));
@@ -261,11 +157,9 @@ var app = {
         console.log(window.device.platform);
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
-            alert('somehow is android');
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
         }
         else{
-            alert('registering with apple');
             //so its apple
              pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
@@ -312,7 +206,7 @@ var app = {
      * For Android Phones
      */
     onNotificationGCM: function(e) {
-        alert('in onNotificationGCM');         
+      
         switch( e.event )
         {
         

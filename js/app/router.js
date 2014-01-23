@@ -14,7 +14,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getAboutUs",
+            "": "getNews",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
