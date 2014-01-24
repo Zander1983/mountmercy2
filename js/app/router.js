@@ -14,7 +14,7 @@ define(function (require) {
     return Backbone.Router.extend({
 
         routes: {
-            "": "getCalendar",
+            "": "getNews",
             "news": "getNews",
             "news-item/:id": "getNewsItem",
             "extracurricular": "getExtraCurricular",           
@@ -77,12 +77,15 @@ define(function (require) {
                       
 
         getNews: function (id) {
- 
+    
+            console.log('in getNews');
+        
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
        
                 if(typeof(news)==='undefined' || news===null){
                     news = new model.NewsCollection();
                     
+                    console.log('fetching news');
                     news.fetch({
                         full_url: true,
                         success: function (collection) {

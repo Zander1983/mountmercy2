@@ -178,7 +178,6 @@ var app = {
                 },
             });
             
-            console.log('after the update ajax');
     },
     
  
