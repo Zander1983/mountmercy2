@@ -190,6 +190,7 @@ var app = {
         }
         else{
             //so its apple
+                alert('registering with apple');
              pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
 
@@ -210,7 +211,7 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
-        
+        alert('in token handler');
        
         var device_id = window.localStorage.getItem('mountmercy_device_id');
         var api_key = window.localStorage.getItem('mountmercy_api_key');
