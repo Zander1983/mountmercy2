@@ -19,6 +19,11 @@ PushNotification.prototype.register = function(successCallback, errorCallback, o
 	cordova.exec(successCallback, errorCallback, "PushPlugin", "register", [options]);
 };
 
+// Call this to retreive pending notification received while the application is in background or at launch
+PushNotification.prototype.getPendingNotifications = function(callback) {
+        cordova.exec(callback, callback, "PushNotification", "getPendingNotifications", []);
+};
+
 // Call this to unregister for push notifications
 PushNotification.prototype.unregister = function(successCallback, errorCallback) {
     if (errorCallback == null) { errorCallback = function() {}}
