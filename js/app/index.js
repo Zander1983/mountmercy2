@@ -288,6 +288,13 @@ var app = {
         
         console.log('event.article_id is ');
         console.log(event.article_id);
+
+        if ( event.article_id )
+        {
+            console.log('in event.article_id');
+            window.location.hash = "article/"+event.article_id;
+            //localStorage.payload =// event.payload   
+        }
         
         var pushNotification = window.plugins.pushNotification;
         if (event.alert) {
@@ -305,13 +312,7 @@ var app = {
             snd.play();
         }
 
-        if ( event.article_id )
-        {
-            console.log('in event.article_id');
 
-            window.location.hash = "article/"+event.article_id;
-            //localStorage.payload =// event.payload   
-        }
     },
 
 };
