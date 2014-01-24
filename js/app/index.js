@@ -299,13 +299,12 @@ var app = {
             snd.play();
         }
 
-        if ( event.payload )
+        if ( event.article_id )
         {
-            console.log('event.payload is ');
-            console.log(event.payload);
-            console.log('article id is ');
-            console.log(event.payload.article_id);
-            window.location.hash = "article/"+e.payload.article_id;
+            console.log('event.article_id is ');
+            console.log(event.article_id);
+
+            window.location.hash = "article/"+event.article_id;
             //localStorage.payload =// event.payload   
         }
     },
