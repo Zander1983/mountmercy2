@@ -286,23 +286,28 @@ var app = {
         console.log('*******in onNotificationAPN and event is ************');
         console.log(app.logObject(event));
         
+        console.log('event.article_id is ');
+        console.log(event.article_id);
+        
         var pushNotification = window.plugins.pushNotification;
         if (event.alert) {
+            console.log('in event.alert');
             navigator.notification.alert(event.alert);
         }
         if (event.badge) {
+            console.log('in event.badge');
             console.log("Set badge on  " + pushNotification);
             pushNotification.setApplicationIconBadgeNumber(this.successHandler, event.badge);
         }
         if (event.sound) {
+            console.log('in event.sound');
             var snd = new Media(event.sound);
             snd.play();
         }
 
         if ( event.article_id )
         {
-            console.log('event.article_id is ');
-            console.log(event.article_id);
+            console.log('in event.article_id');
 
             window.location.hash = "article/"+event.article_id;
             //localStorage.payload =// event.payload   
