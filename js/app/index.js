@@ -184,23 +184,14 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        
-        alert('in onDeviceReady');
-        var pushNotification = window.plugins.pushNotification;
-        pushNotification.getPendingNotifications(function(notifications) {
-            //app.myLog.value+=JSON.stringify(['getPendingNotifications', notifications])+"\n";
-            console.log('pending notifications are ');
-            console.log(JSON.stringify(['getPendingNotifications', notifications]));
-        });
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
-           // pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
+            pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
         }
         else{
             //so its apple
-
-            // pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
+            pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
 
     },
@@ -220,7 +211,6 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
-        alert('in token handler');
        
         var device_id = window.localStorage.getItem('mountmercy_device_id');
         var api_key = window.localStorage.getItem('mountmercy_api_key');
@@ -289,7 +279,7 @@ var app = {
         }
     }, 
     
-    /*
+    
     onNotificationAPN: function(event) {
         alert('in onNotificationAPN');
         
@@ -323,6 +313,6 @@ var app = {
         }
 
 
-    },*/
+    },
 
 };
