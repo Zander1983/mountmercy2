@@ -185,7 +185,7 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         
-        
+        alert('in onDeviceReady');
         var pushNotification = window.plugins.pushNotification;
         pushNotification.getPendingNotifications(function(notifications) {
             //app.myLog.value+=JSON.stringify(['getPendingNotifications', notifications])+"\n";
@@ -199,8 +199,7 @@ var app = {
         }
         else{
             //so its apple
-                alert('registering with apple');
-                initPushwoosh();
+
             // pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
 
