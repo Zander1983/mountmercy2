@@ -155,10 +155,7 @@ var app = {
     updateRegId: function(device_id, api_key, reg_id){
         
             var url = "http://push.schoolspace.ie/device_api/device/"+device_id;
-            
-            console.log('in updateRegId');
-            console.log('updatig with reg_id of ');
-            console.log(reg_id);
+   
             $.ajax({
                 url: url,
                 type: "put",
@@ -186,9 +183,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
- 
-        console.log('in onDeviceReady and platform is ');
-        console.log(window.device.platform);
+
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
@@ -223,14 +218,12 @@ var app = {
         if(typeof(device_id)==='undefined' || device_id===null){
             //we dont have a device id so register it and save to local storage. 
             //should only ever enter here once     
-            console.log('in the if so going to registerDeviceWithServer ');
 
             app.registerDeviceWithServer(status);        
 
         }
         else{
             app.updateRegId(device_id, api_key, status);
-
         }
        
     },
@@ -255,7 +248,6 @@ var app = {
                     if(typeof(device_id)==='undefined' || device_id===null){
                         //we dont have a device id so register it and save to local storage. 
                         //should only ever enter here once     
-                        console.log('in the if so going to registerDeviceWithServer ');
                   
                         app.registerDeviceWithServer(e.regid);        
 
