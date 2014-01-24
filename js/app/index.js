@@ -311,7 +311,9 @@ var app = {
         {
             console.log('event.payload is ');
             console.log(event.payload);
-            //window.location.hash = "article/"+e.payload.article_id;
+            console.log('article id is ');
+            console.log(event.payload.article_id);
+            window.location.hash = "article/"+e.payload.article_id;
             //localStorage.payload =// event.payload   
         }
     },
