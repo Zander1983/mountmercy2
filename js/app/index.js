@@ -176,7 +176,8 @@ var app = {
             });
             
     },
-    
+     
+           
  
     // deviceready Event Handler
     //
@@ -194,12 +195,13 @@ var app = {
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
-            pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
+           // pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
         }
         else{
             //so its apple
                 alert('registering with apple');
-             pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
+                initPushwoosh();
+            // pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
 
     },
@@ -288,7 +290,7 @@ var app = {
         }
     }, 
     
-    
+    /*
     onNotificationAPN: function(event) {
         alert('in onNotificationAPN');
         
@@ -322,6 +324,6 @@ var app = {
         }
 
 
-    },
+    },*/
 
 };
