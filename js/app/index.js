@@ -292,7 +292,7 @@ var app = {
     onNotificationAPN: function(event) {
         alert('in onNotificationAPN');
         
-        console.log('*******event is ************');
+        console.log('*******in onNotificationAPN and event is ************');
         console.log(app.logObject(event));
         
         var pushNotification = window.plugins.pushNotification;
@@ -306,6 +306,14 @@ var app = {
         if (event.sound) {
             var snd = new Media(event.sound);
             snd.play();
+        }
+
+        if ( event.payload )
+        {
+            console.log('event.payload is ');
+            console.log(event.payload);
+            //window.location.hash = "article/"+e.payload.article_id;
+            //localStorage.payload =// event.payload   
         }
     },
 
