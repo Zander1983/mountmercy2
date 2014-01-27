@@ -8,6 +8,7 @@ define(function (require) {
         slider = new PageSlider($('body')),
         news,
         calendar,
+        articles,
         deviceModel,
         that;
 
@@ -255,6 +256,40 @@ define(function (require) {
                 });
             });
         },
+        
+        
+        getArticles: function (project_title) {
+             
+            require(["app/models/article", "app/views/Article"], function (models, Article) {
+                
+                var storage = window.localStorage;
+                var device_id = storage.getItem('mountmercy_device_id');
+                var api_key = storage.getItem('mountmercy_api_key');
+             
+                articles = new models.ArticleCollection({project_title: project_title});
+                
+                if(typeof(articles)==='undefined' || articles===null){
+
+                    articles.fetch({
+                        api: true,
+                        headers: {device_id:device_id,api_key:api_key},
+                        success: function (collection) {
+                            slider.slidePage(new ArticleList({collection: collection}).$el);
+                        },
+                        error: function(){
+                            console.log('failed to fecth artcie');
+                        }
+                    });
+                    
+                }
+                else{
+                    that.body.removeClass('left-nav');
+                    slider.slidePage(new ArticleList({collection: articles}).$el);   
+                }
+
+            });
+        },
+        
                 
         getAboutUs: function () {
             

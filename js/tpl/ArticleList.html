@@ -16,13 +16,13 @@
 
 
 <div class="main-content">
-    <ul class="topcoat-list list" id="news-list">
-    <% _.every(news, function(item) { %>
+    <ul class="topcoat-list list" id="article-list">
+    <% _.every(article, function(item) { %>
     <li class="topcoat-list__item" data-id="<%= item.id %>">
-            <a href="#news-item/<%= item.id %>">
+            <a href="#article-item/<%= item.id %>">
                 <img src="img/crestmmc.png" />
                 <p><%= item.title %></p>
-                <p><%= item.article_date %></p>
+                <p><%= item.time_created %></p>
                 <span class="chevron"></span>
             </a>
         </li>
