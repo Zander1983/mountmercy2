@@ -15,12 +15,12 @@ define(function (require) {
         ArticleCollection = Backbone.Collection.extend({
 
             model: Article,
-            initialize: function (models, options) {
-                //console.log('in collection and game id is ');
-                //console.log(options.game_id);
-                //this.game_id = options.game_id;
+            initialize: function (options) {
+                this.project_title = options.project_title;
             },
-            url: "articles",
+            url: function(){
+                    return "/articles/"+this.project_title;
+                 },
 
 
         });

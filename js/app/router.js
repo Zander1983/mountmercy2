@@ -8,6 +8,7 @@ define(function (require) {
         slider = new PageSlider($('body')),
         news,
         calendar,
+        article,
         articles,
         deviceModel,
         that;
@@ -28,6 +29,7 @@ define(function (require) {
             "notification": "getNotification",
             "waypay": "getWayPay",
             "article/:id": "getArticle",
+            "articles/:project_title": "getArticles",
         },
         
         initialize: function() {   
@@ -35,6 +37,10 @@ define(function (require) {
             that.body = $('body');
             
             this.bind( "route", this.routeChange);
+            
+            this.storage = window.localStorage;
+            this.device_id = this.storage.getItem('mountmercy_device_id');
+            this.api_key = this.storage.getItem('mountmercy_api_key');
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) { 
                 
@@ -47,11 +53,12 @@ define(function (require) {
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
                     
                     if(options.update_notification==true){
-                       //options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
-                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
+                       options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
+                       //options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
                     }
                     else{
-                        options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
+                        options.url = "http://localhost/schoolspace/device_api" + options.url;   
+                        //options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
                     }
                     
                 }
@@ -79,23 +86,20 @@ define(function (require) {
 
         getNews: function (id) {
     
-            console.log('in getNews');
-        
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
        
                 if(typeof(news)==='undefined' || news===null){
                     news = new model.NewsCollection();
                     
-                    console.log('fetching news');
                     news.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
-                            console.log('in getNews and body is ');
-                            console.log(that.body);
                             that.body.removeClass('left-nav');
-                            slider.slidePage(new NewsList({collection: collection}).$el);                          
+                            slider.slidePage(new NewsList({collection: collection}).$el);    
+                            that.updateMessageCounter();
                         }
                     });
+                    
                 }
                 else{
                     that.body.removeClass('left-nav');
@@ -194,13 +198,9 @@ define(function (require) {
                 
                   if(typeof(deviceModel)==='undefined' || deviceModel===null){
 
-                        var storage = window.localStorage;
-                        var device_id = storage.getItem('mountmercy_device_id');
-                        var api_key = storage.getItem('mountmercy_api_key');
+                        deviceModel = new model.Device({id:that.device_id});
 
-                        deviceModel = new model.Device({id:device_id});
-
-                        if(typeof(device_id)==='undefined' || device_id===null || typeof(api_key)==='undefined' || api_key===null){
+                        if(typeof(that.device_id)==='undefined' || that.device_id===null || typeof(that.api_key)==='undefined' || that.api_key===null){
                             that.body.removeClass('left-nav');
                             alert('There was a problem with notifications, please contact the developer');
                             window.location.hash = "news";
@@ -208,7 +208,7 @@ define(function (require) {
                         else{
                             deviceModel.fetch({
                                 api: true,
-                                headers: {device_id:device_id,api_key:api_key},        
+                                headers: {device_id:that.device_id,api_key:that.api_key},        
                                 success: function (data) {
                                     that.body.removeClass('left-nav');
                                     slider.slidePage(new Notification({model: data, storage:storage}).$el);                          
@@ -238,43 +238,20 @@ define(function (require) {
              
             require(["app/models/article", "app/views/Article"], function (models, Article) {
                 
-                var storage = window.localStorage;
-                var device_id = storage.getItem('mountmercy_device_id');
-                var api_key = storage.getItem('mountmercy_api_key');
-             
-                var article = new models.Article({id: id});
-                
-                article.fetch({
-                    api: true,
-                    headers: {device_id:device_id,api_key:api_key},
-                    success: function (data) {
-                        slider.slidePage(new Article({model: data}).$el);
-                    },
-                    error: function(){
-                        console.log('failed to fecth artcie');
-                    }
-                });
-            });
-        },
-        
-        
-        getArticles: function (project_title) {
-             
-            require(["app/models/article", "app/views/Article"], function (models, Article) {
-                
-                var storage = window.localStorage;
-                var device_id = storage.getItem('mountmercy_device_id');
-                var api_key = storage.getItem('mountmercy_api_key');
-             
-                articles = new models.ArticleCollection({project_title: project_title});
                 
                 if(typeof(articles)==='undefined' || articles===null){
 
-                    articles.fetch({
+                    console.log('in the if so articles undefiened');
+
+
+
+                    var article = new models.Article({id: id});
+
+                    article.fetch({
                         api: true,
-                        headers: {device_id:device_id,api_key:api_key},
-                        success: function (collection) {
-                            slider.slidePage(new ArticleList({collection: collection}).$el);
+                        headers: {device_id:that.device_id,api_key:that.api_key},
+                        success: function (data) {
+                            slider.slidePage(new Article({model: data}).$el);
                         },
                         error: function(){
                             console.log('failed to fecth artcie');
@@ -283,9 +260,35 @@ define(function (require) {
                     
                 }
                 else{
+
                     that.body.removeClass('left-nav');
-                    slider.slidePage(new ArticleList({collection: articles}).$el);   
+                     slider.slidePage(new Article({model: articles.get(id), 
+                                                   device_id:that.device_id,
+                                                   api_key:that.api_key
+                                                    }).$el);
                 }
+
+            });
+        },
+        
+        
+        getArticles: function (project_title) {
+            
+            require(["app/models/article", "app/views/ArticleList"], function (models, ArticleList) {
+             
+                articles = new models.ArticleCollection({project_title: project_title});
+    
+                console.log('before the Articles fetch');
+                articles.fetch({
+                    api: true,
+                    headers: {device_id:that.device_id,api_key:that.api_key},
+                    success: function (collection) {
+                        slider.slidePage(new ArticleList({collection: collection}).$el);
+                    },
+                    error: function(){
+                        console.log('failed to fecth artcie');
+                    }
+                });   
 
             });
         },
@@ -298,10 +301,29 @@ define(function (require) {
                 that.body.removeClass('left-nav');
                 slider.slidePage(new AboutUs().$el);               
              });
-            
-            
-            
         },
+                
+        updateMessageCounter: function(){
+   
+            
+            require(["app/models/article_view"], function (models) {
+           
+                var article_view_count = new models.ArticleViewCount({id: that.device_id});
+                article_view_count.fetch({
+                    api: true,
+                    headers: {device_id:that.device_id,api_key:that.api_key},
+                    success: function (data) {
+                        console.log('data is ');
+                        console.log(data);
+                    },
+                    error: function(){
+                        console.log('failed to fecth artcie');
+                    }
+                }); 
+                
+            });
+            
+        }
     });
 
 });

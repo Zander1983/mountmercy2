@@ -20,8 +20,6 @@ require.config({
 
 require(['backbone', 'app/router', 'app/binds'], function (Backbone, Router, Binds) {
 
-    console.log('in app.js ***********');
-
     var router = new Router();
     
     Binds.doBinds();
