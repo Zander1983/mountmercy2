@@ -14,7 +14,14 @@ define(function (require) {
         
         ArticleViewCount = Backbone.Model.extend({  
 
-            urlRoot: "/article_view_count",   
+            initialize: function (options) {
+                this.device_id = options.device_id;
+                this.project_title = options.project_title;
+                
+            },
+            urlRoot: function(){
+                    return "/article_view_count/"+this.device_id+'/'+this.project_title;
+                 },
 
         }), 
         

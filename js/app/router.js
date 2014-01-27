@@ -8,7 +8,7 @@ define(function (require) {
         slider = new PageSlider($('body')),
         news,
         calendar,
-        article,
+        message_count,
         articles,
         deviceModel,
         that;
@@ -41,6 +41,8 @@ define(function (require) {
             this.storage = window.localStorage;
             this.device_id = this.storage.getItem('mountmercy_device_id');
             this.api_key = this.storage.getItem('mountmercy_api_key');
+            
+            this.updateMessageCounter(this.device_id);
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) { 
                 
@@ -136,7 +138,8 @@ define(function (require) {
         },
         
         getNewsItem: function (id) {
-            
+            console.log('message_count is ');
+            console.log(message_count);
             require(["app/views/NewsItem"], function (NewsItem) {
                 that.body.removeClass('left-nav');
                  slider.slidePage(new NewsItem({model: news.get(id)}).$el);
@@ -276,7 +279,9 @@ define(function (require) {
             
             require(["app/models/article", "app/views/ArticleList"], function (models, ArticleList) {
              
-                articles = new models.ArticleCollection({project_title: project_title});
+                articles = new models.ArticleCollection({project_title: project_title, 
+                                                         message_count:message_count
+                                                        });
     
                 console.log('before the Articles fetch');
                 articles.fetch({
@@ -299,22 +304,30 @@ define(function (require) {
             
             require(["app/views/AboutUs"], function (AboutUs) { 
                 that.body.removeClass('left-nav');
-                slider.slidePage(new AboutUs().$el);               
+                slider.slidePage(new AboutUs({message_count:message_count}).$el);               
              });
         },
                 
         updateMessageCounter: function(){
-   
-            
+       
             require(["app/models/article_view"], function (models) {
            
-                var article_view_count = new models.ArticleViewCount({id: that.device_id});
-                article_view_count.fetch({
+                var article_view_count = new models.ArticleViewCount({device_id: that.device_id, 
+                                                                      project_title: project_title
+                                                                        });
+                
+                article_view_count.fetch( 
+                    {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (data) {
-                        console.log('data is ');
-                        console.log(data);
+                        message_count = data.get('count');
+                        if(message_count>0){
+                            //topcoat-notification
+                            var unread = $('#unread-count');
+                            unread.html(message_count);
+                            unread.addClass('topcoat-notification');
+                        }
                     },
                     error: function(){
                         console.log('failed to fecth artcie');

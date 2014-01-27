@@ -18,10 +18,17 @@
 <div class="main-content">
     <ul class="topcoat-list list" id="article-list">
     <% _.every(article, function(item) { %>
-    <li class="topcoat-list__item <% if(item.seen!==1){print('raised');} %>" data-id="<%= item.id %>">
+    <li class="topcoat-list__item" data-id="<%= item.id %>">
             <a href="#article/<%= item.id %>">
                 <img src="img/crestmmc.png" />
-                <p><%= item.title %></p>
+                <p><% print(item.title) 
+                        console.log('item.seen is ');
+                        console.log(item.seen);
+                        if(item.seen!=='1'){
+                            console.log('in the if');
+                            print('<span class="topcoat-notification" >Unread</span>');
+                        }
+                    %></p>
                 <p><%= moment(item.time_created, 'X').format('MMM Do YY') %></p>
                 <span class="chevron"></span>
             </a>

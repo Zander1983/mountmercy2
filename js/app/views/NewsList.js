@@ -11,13 +11,13 @@ define(function (require) {
 
     return Backbone.View.extend({
 
-        initialize: function () {
+        initialize: function (options) {
             this.render();
             this.collection.on("reset", this.render, this);
         },
 
-        render: function () {
-            this.$el.html(template({side_nav:side_template(), news:this.collection.toJSON()}));
+        render: function (options) {
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count}), news:this.collection.toJSON()}));
             return this;
         },
  

@@ -7,6 +7,7 @@ define(function (require) {
         models              = require('app/models/article_view'),
         tpl                 = require('text!tpl/Article.html'),
         side_nav            = require('text!tpl/SideNav.html'),
+        side_template       = _.template(side_nav),
         template            = _.template(tpl);
 
     return Backbone.View.extend({
@@ -47,7 +48,7 @@ define(function (require) {
 
         render: function (options) {
             
-            this.$el.html(template({side_nav:side_nav, 
+            this.$el.html(template({side_nav:side_template(), 
                                     title:this.model.get('title'),
                                     content: this.model.get('content')
                                     }));

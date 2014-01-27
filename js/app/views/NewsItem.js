@@ -6,12 +6,16 @@ define(function (require) {
         Backbone            = require('backbone'),
         tpl                 = require('text!tpl/NewsItem.html'),
         UsefulFuncs         = require('app/utils/useful_func'),
-        side_nav                = require('text!tpl/SideNav.html'),
+        side_nav            = require('text!tpl/SideNav.html'),
         template = _.template(tpl);
 
     return Backbone.View.extend({
 
         initialize: function () {
+            
+            console.log('in initialize and message_count is ');
+            console.log(message_count);
+            
             this.removeDescriptionStyles();
             this.render();
            
