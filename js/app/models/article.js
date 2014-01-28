@@ -16,10 +16,11 @@ define(function (require) {
 
             model: Article,
             initialize: function (options) {
+                this.device_id = options.device_id;
                 this.project_title = options.project_title;
             },
             url: function(){
-                    return "/articles/"+this.project_title;
+                    return "/articles/"+this.device_id+'/'+this.project_title;
                  },
 
 

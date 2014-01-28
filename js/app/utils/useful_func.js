@@ -71,6 +71,8 @@ define(function (require) {
                 if(!el.hasClass('topcoat-notification')){
                     el.addClass('topcoat-notification');
                 }
+                console.log('outerHTML is ');
+                console.log(el[0].outerHTML);
             }
             else{
                 console.log('in updateCountEl else');

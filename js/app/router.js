@@ -4,7 +4,7 @@ define(function (require) {
 
     var Backbone    = require('backbone'),
         PageSlider  = require('app/utils/pageslider'),
-    
+        Useful              = require('app/utils/useful_func'),
         slider = new PageSlider($('body')),
         news,
         calendar,
@@ -32,15 +32,16 @@ define(function (require) {
         },
         
         initialize: function() {   
-            console.log('in the initialize');
+            
             that = this;
             that.body = $('body');
             
             this.bind( "route", this.routeChange);
             
             this.storage = window.localStorage;
-            this.device_id = this.storage.getItem('mountmercy_device_id');
-            this.api_key = this.storage.getItem('mountmercy_api_key');
+
+            this.device_id = this.storage.getItem(project_title+'_device_id');
+            this.api_key = this.storage.getItem(project_title+'_api_key');
             
             this.updateMessageCounter(this.device_id);
 
@@ -55,12 +56,12 @@ define(function (require) {
                     //options.url = "http://localhost/schoolspace/device_api" + options.url;
                     
                     if(options.update_notification==true){
-                       options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
-                       //options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
+                       //options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
+                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
                     }
                     else{
-                        options.url = "http://localhost/schoolspace/device_api" + options.url;   
-                        //options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
+                        //options.url = "http://localhost/schoolspace/device_api" + options.url;   
+                        options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
                     }
                     
                 }
@@ -87,14 +88,16 @@ define(function (require) {
                       
 
         getNews: function (id) {
-            console.log('in the getNews');
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
+       
+                console.log('in getNews and that.message_count is ');
+                console.log(that.message_count);
        
                 if(typeof(news)==='undefined' || news===null){
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             that.body.removeClass('left-nav');
                             slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
@@ -120,10 +123,8 @@ define(function (require) {
                     calendar = new model.CalendarCollection();
                     
                     calendar.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
-                            console.log('body is ');
-                            console.log(that.body);
                             that.body.removeClass('left-nav');
                             slider.slidePage(new CalendarList({collection: collection, message_count:that.message_count}).$el);                          
                         }
@@ -138,8 +139,7 @@ define(function (require) {
         },
         
         getNewsItem: function (id) {
-            console.log('message_count is ');
-            console.log(message_count);
+
             require(["app/views/NewsItem"], function (NewsItem) {
                 that.body.removeClass('left-nav');
                  slider.slidePage(new NewsItem({model: news.get(id), message_count:that.message_count}).$el);
@@ -148,7 +148,7 @@ define(function (require) {
         },
                 
         getCalendarItem: function (id) {
-            console.log('top of getCalendarItem');
+
             require(["app/views/CalendarItem"], function (CalendarItem) {
                 that.body.removeClass('left-nav');
                  slider.slidePage(new CalendarItem({model: calendar.get(id), message_count:that.message_count}).$el);
@@ -161,8 +161,7 @@ define(function (require) {
     
             require(["app/views/ExtraCurricularList"], function (ExtraCurricularList) {
                 that.body.removeClass('left-nav');
-                console.log('in getExtraCurricular and message count is ');
-                console.log(that.message_count);
+
                 slider.slidePage(new ExtraCurricularList({message_count:that.message_count}).$el);
                                     
             });
@@ -193,7 +192,19 @@ define(function (require) {
             
             require(["app/views/Contact"], function (Contact) { 
                 that.body.removeClass('left-nav');
-                slider.slidePage(new Contact({message_count:that.message_count}).$el);               
+                
+                var contactView = new Contact({message_count:that.message_count}).$el; 
+                slider.slidePage(contactView);   
+                
+                console.log('contactView is ');
+                console.log(contactView);
+                console.log('find is ');
+                console.log(contactView.find('#message-count'));
+                
+                var el = $('#message-count');
+                console.log('outerHTML is ');
+                console.log(el[0].outerHTML);
+                
              });
         },
                 
@@ -224,7 +235,7 @@ define(function (require) {
                         }
                     
                   }else{    
-                        console.log('in the else');
+      
                         that.body.removeClass('left-nav');
                         slider.slidePage(new Notification({model: deviceModel, storage:storage, 
                                                             message_count:that.message_count
@@ -260,7 +271,7 @@ define(function (require) {
                             slider.slidePage(articleView.$el);
 
                             $.when(articleView.saveView()).done(function(data){
-                                that.message_count = data.get('count');
+                                that.message_count = data.count;
                             });
 
                         },
@@ -280,7 +291,7 @@ define(function (require) {
                     slider.slidePage(articleView.$el);
 
                     $.when(articleView.saveView()).done(function(data){
-                        that.message_count = data.get('count');
+                        that.message_count = data.count;
                     });
                             
                 }
@@ -293,13 +304,14 @@ define(function (require) {
             
             require(["app/models/article", "app/views/ArticleList"], function (models, ArticleList) {
              
-                articles = new models.ArticleCollection({project_title: project_title
+                articles = new models.ArticleCollection({device_id: that.device_id, project_title: project_title
                                                         });
     
                 articles.fetch({
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (collection) {
+                        that.body.removeClass('left-nav');
                         slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
                     }, 
                     error: function(){
@@ -328,12 +340,15 @@ define(function (require) {
                                                                       project_title: project_title
                                                                         });
                 
-                article_view_count.fetch( 
+                return article_view_count.fetch( 
                     {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (data) {
+                        console.log('in updateMessageCounter success and count is ');
+                        console.log(data.get('count'));
                         that.message_count = data.get('count');
+                        Useful.updateCountEl(that.message_count);
                         /*if(message_count>0){
                             //topcoat-notification
                             var unread = $('#unread-count');
@@ -342,7 +357,7 @@ define(function (require) {
                         }*/
                     },
                     error: function(){
-                        console.log('failed to fecth artcie');
+                        console.log('failed updateMessageCounter');
                     }
                 }); 
                 
