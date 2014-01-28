@@ -6,8 +6,8 @@ define(function (require) {
         Backbone            = require('backbone'),
         tpl                 = require('text!tpl/Map.html'),
         side_nav                = require('text!tpl/SideNav.html'),
-        template = _.template(tpl),
-        map, myLatlng, mapOptions, marker, test;
+        side_template = _.template(side_nav),
+        template = _.template(tpl);
 
 
     return Backbone.View.extend({
@@ -43,7 +43,7 @@ define(function (require) {
 
         render: function () {
     
-            this.$el.html(template({side_nav:side_nav}));
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count})}));
 
             this.initMap();      
            

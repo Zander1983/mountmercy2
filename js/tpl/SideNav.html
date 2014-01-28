@@ -10,7 +10,11 @@
             
             <li class="topcoat-list__item side-nav__list__item">
                 <a href="#articles/<%= project_title %>" class="side-nav__button nav-links">Messages
-                <span id="unread-count" ></span>
+                <% 
+                    if(message_count>0){
+                        print('<span id="message-count" class="topcoat-notification" >'+message_count+'</span>');
+                    }
+                %>
                 </a>
             </li>
 

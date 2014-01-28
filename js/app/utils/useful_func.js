@@ -59,6 +59,28 @@ define(function (require) {
             return text.replace(exp,"<a href='$1'>$1</a>"); 
     };
     
+    UsefulFuncs.updateCountEl = function (count) {
+            console.log('in updateCountEl ');
+            var el = $('#message-count');
+            console.log('el is ');
+            console.log(el);
+            if(count>0){
+                console.log('in updateCountEl if and count is ');
+                console.log(count);
+                el.html(count);
+                if(!el.hasClass('topcoat-notification')){
+                    el.addClass('topcoat-notification');
+                }
+            }
+            else{
+                console.log('in updateCountEl else');
+                //so its 0, remove class and empty html
+                el.removeClass('topcoat-notification');
+                el.empty();
+            }
+
+    };
+    
     return UsefulFuncs;
 
     

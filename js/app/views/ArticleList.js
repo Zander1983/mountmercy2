@@ -20,7 +20,7 @@ define(function (require) {
 
         render: function () {
 
-            this.$el.html(template({side_nav:side_template(), article:this.collection.toJSON()}));
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count}), article:this.collection.toJSON()}));
             return this;
         },
           

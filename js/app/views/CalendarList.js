@@ -6,6 +6,7 @@ define(function (require) {
         Backbone            = require('backbone'),
         tpl                 = require('text!tpl/CalendarList.html'),
         side_nav                = require('text!tpl/SideNav.html'),
+        side_template = _.template(side_nav),
         template = _.template(tpl);
 
 
@@ -17,7 +18,8 @@ define(function (require) {
 
         render: function (options) {
             
-            this.$el.html(template({side_nav:side_nav, calendar:this.collection.toJSON()}));
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count}), 
+                                    calendar:this.collection.toJSON()}));
 
         },
 

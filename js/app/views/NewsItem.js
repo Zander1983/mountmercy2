@@ -7,14 +7,12 @@ define(function (require) {
         tpl                 = require('text!tpl/NewsItem.html'),
         UsefulFuncs         = require('app/utils/useful_func'),
         side_nav            = require('text!tpl/SideNav.html'),
+        side_template = _.template(side_nav),
         template = _.template(tpl);
 
     return Backbone.View.extend({
 
         initialize: function () {
-            
-            console.log('in initialize and message_count is ');
-            console.log(message_count);
             
             this.removeDescriptionStyles();
             this.render();
@@ -26,7 +24,8 @@ define(function (require) {
         },
 
         render: function () {
-            this.$el.html(template({side_nav:side_nav, model:this.model.attributes}));
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count}), 
+                                    model:this.model.attributes}));
             return this;
         },
         

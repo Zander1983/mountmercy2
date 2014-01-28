@@ -22,10 +22,7 @@
             <a href="#article/<%= item.id %>">
                 <img src="img/crestmmc.png" />
                 <p><% print(item.title) 
-                        console.log('item.seen is ');
-                        console.log(item.seen);
                         if(item.seen!=='1'){
-                            console.log('in the if');
                             print('<span class="topcoat-notification" >Unread</span>');
                         }
                     %></p>

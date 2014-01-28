@@ -4,13 +4,11 @@ define(function (require) {
 
     var _                   = require('underscore'),
         Backbone            = require('backbone'),
-        device_model        = require('app/models/device'),
-        notification_model  = require('app/models/notification'),
         tpl                 = require('text!tpl/Notification.html'),
         side_nav            = require('text!tpl/SideNav.html'),
+        side_template = _.template(side_nav),
         template            = _.template(tpl),
-        that,
-        notification;
+        that;
 
     return Backbone.View.extend({
 
@@ -26,7 +24,7 @@ define(function (require) {
 
         render: function (options) {
          
-            this.$el.html(template({side_nav:side_nav, 
+            this.$el.html(template({side_nav:side_template({message_count:this.options.message_count}), 
                                     notification:this.model.get('notification')
                                     }));
             return this;

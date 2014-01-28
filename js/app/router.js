@@ -8,7 +8,6 @@ define(function (require) {
         slider = new PageSlider($('body')),
         news,
         calendar,
-        message_count,
         articles,
         deviceModel,
         that;
@@ -33,6 +32,7 @@ define(function (require) {
         },
         
         initialize: function() {   
+            console.log('in the initialize');
             that = this;
             that.body = $('body');
             
@@ -87,7 +87,7 @@ define(function (require) {
                       
 
         getNews: function (id) {
-    
+            console.log('in the getNews');
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
        
                 if(typeof(news)==='undefined' || news===null){
@@ -97,15 +97,15 @@ define(function (require) {
                         full_url: false,
                         success: function (collection) {
                             that.body.removeClass('left-nav');
-                            slider.slidePage(new NewsList({collection: collection}).$el);    
-                            that.updateMessageCounter();
+                            slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
+                            //that.updateMessageCounter();
                         }
                     });
                     
                 }
                 else{
                     that.body.removeClass('left-nav');
-                    slider.slidePage(new NewsList({collection: news}).$el);
+                    slider.slidePage(new NewsList({collection: news, message_count:that.message_count}).$el);
                 }
                             
             });
@@ -125,13 +125,13 @@ define(function (require) {
                             console.log('body is ');
                             console.log(that.body);
                             that.body.removeClass('left-nav');
-                            slider.slidePage(new CalendarList({collection: collection}).$el);                          
+                            slider.slidePage(new CalendarList({collection: collection, message_count:that.message_count}).$el);                          
                         }
                     });
                 }
                 else{
                     that.body.removeClass('left-nav');
-                    slider.slidePage(new CalendarList({collection: calendar}).$el);
+                    slider.slidePage(new CalendarList({collection: calendar, message_count:that.message_count}).$el);
                 }
                             
             });
@@ -142,7 +142,7 @@ define(function (require) {
             console.log(message_count);
             require(["app/views/NewsItem"], function (NewsItem) {
                 that.body.removeClass('left-nav');
-                 slider.slidePage(new NewsItem({model: news.get(id)}).$el);
+                 slider.slidePage(new NewsItem({model: news.get(id), message_count:that.message_count}).$el);
                                  
             });
         },
@@ -151,7 +151,7 @@ define(function (require) {
             console.log('top of getCalendarItem');
             require(["app/views/CalendarItem"], function (CalendarItem) {
                 that.body.removeClass('left-nav');
-                 slider.slidePage(new CalendarItem({model: calendar.get(id)}).$el);
+                 slider.slidePage(new CalendarItem({model: calendar.get(id), message_count:that.message_count}).$el);
                                  
             });
         },
@@ -161,7 +161,9 @@ define(function (require) {
     
             require(["app/views/ExtraCurricularList"], function (ExtraCurricularList) {
                 that.body.removeClass('left-nav');
-                slider.slidePage(new ExtraCurricularList().$el);
+                console.log('in getExtraCurricular and message count is ');
+                console.log(that.message_count);
+                slider.slidePage(new ExtraCurricularList({message_count:that.message_count}).$el);
                                     
             });
         },
@@ -171,14 +173,14 @@ define(function (require) {
             
             require(["app/views/ExtraCurricularItem"], function (ExtraCurricularItem) { 
                 that.body.removeClass('left-nav');
-                slider.slidePage(new ExtraCurricularItem({type:type}).$el);               
+                slider.slidePage(new ExtraCurricularItem({type:type, message_count:that.message_count}).$el);               
              });
         },
                 
         getMap: function () {
             
             require(["app/views/Map"], function (Map) {    
-                var mapView = new Map();
+                var mapView = new Map({message_count:that.message_count});
                 //mapView.delegateEvents();
                 that.body.removeClass('left-nav');
                 slider.slidePage(mapView.$el);
@@ -191,7 +193,7 @@ define(function (require) {
             
             require(["app/views/Contact"], function (Contact) { 
                 that.body.removeClass('left-nav');
-                slider.slidePage(new Contact().$el);               
+                slider.slidePage(new Contact({message_count:that.message_count}).$el);               
              });
         },
                 
@@ -214,7 +216,9 @@ define(function (require) {
                                 headers: {device_id:that.device_id,api_key:that.api_key},        
                                 success: function (data) {
                                     that.body.removeClass('left-nav');
-                                    slider.slidePage(new Notification({model: data, storage:storage}).$el);                          
+                                    slider.slidePage(new Notification({model: data, storage:storage, 
+                                                                        message_count:that.message_count
+                                                                        }).$el);                          
                                 }
                             });
                         }
@@ -222,7 +226,9 @@ define(function (require) {
                   }else{    
                         console.log('in the else');
                         that.body.removeClass('left-nav');
-                        slider.slidePage(new Notification({model: deviceModel, storage:storage}).$el);    
+                        slider.slidePage(new Notification({model: deviceModel, storage:storage, 
+                                                            message_count:that.message_count
+                                                            }).$el);    
                   }
 
        
@@ -233,20 +239,15 @@ define(function (require) {
             
             require(["app/views/WayPay"], function (WayPay) {
                 that.body.removeClass('left-nav');
-                slider.slidePage(new WayPay().$el);               
+                slider.slidePage(new WayPay({message_count:that.message_count}).$el);               
              });
         },
                 
         getArticle: function (id) {
              
             require(["app/models/article", "app/views/Article"], function (models, Article) {
-                
-                
+                               
                 if(typeof(articles)==='undefined' || articles===null){
-
-                    console.log('in the if so articles undefiened');
-
-
 
                     var article = new models.Article({id: id});
 
@@ -254,21 +255,34 @@ define(function (require) {
                         api: true,
                         headers: {device_id:that.device_id,api_key:that.api_key},
                         success: function (data) {
-                            slider.slidePage(new Article({model: data}).$el);
+                            var articleView = new Article({model: data, message_count:that.message_count});
+
+                            slider.slidePage(articleView.$el);
+
+                            $.when(articleView.saveView()).done(function(data){
+                                that.message_count = data.get('count');
+                            });
+
                         },
                         error: function(){
-                            console.log('failed to fecth artcie');
+                            console.log('failed to fecth artcie'); 
                         }
                     });
                     
                 }
                 else{
-
-                    that.body.removeClass('left-nav');
-                     slider.slidePage(new Article({model: articles.get(id), 
+                    var articleView = new Article({model: articles.get(id), 
                                                    device_id:that.device_id,
-                                                   api_key:that.api_key
-                                                    }).$el);
+                                                   api_key:that.api_key,
+                                                   message_count:that.message_count
+                                                    });
+                    that.body.removeClass('left-nav');
+                    slider.slidePage(articleView.$el);
+
+                    $.when(articleView.saveView()).done(function(data){
+                        that.message_count = data.get('count');
+                    });
+                            
                 }
 
             });
@@ -279,17 +293,15 @@ define(function (require) {
             
             require(["app/models/article", "app/views/ArticleList"], function (models, ArticleList) {
              
-                articles = new models.ArticleCollection({project_title: project_title, 
-                                                         message_count:message_count
+                articles = new models.ArticleCollection({project_title: project_title
                                                         });
     
-                console.log('before the Articles fetch');
                 articles.fetch({
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (collection) {
-                        slider.slidePage(new ArticleList({collection: collection}).$el);
-                    },
+                        slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
+                    }, 
                     error: function(){
                         console.log('failed to fecth artcie');
                     }
@@ -304,7 +316,7 @@ define(function (require) {
             
             require(["app/views/AboutUs"], function (AboutUs) { 
                 that.body.removeClass('left-nav');
-                slider.slidePage(new AboutUs({message_count:message_count}).$el);               
+                slider.slidePage(new AboutUs({message_count:that.message_count}).$el);               
              });
         },
                 
@@ -321,13 +333,13 @@ define(function (require) {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (data) {
-                        message_count = data.get('count');
-                        if(message_count>0){
+                        that.message_count = data.get('count');
+                        /*if(message_count>0){
                             //topcoat-notification
                             var unread = $('#unread-count');
                             unread.html(message_count);
                             unread.addClass('topcoat-notification');
-                        }
+                        }*/
                     },
                     error: function(){
                         console.log('failed to fecth artcie');
