@@ -43,7 +43,7 @@ define(function (require) {
             this.device_id = this.storage.getItem(project_title+'_device_id');
             this.api_key = this.storage.getItem(project_title+'_api_key');
             
-            if(typeof(device_id)!=='undefined' && device_id===null){
+            if(typeof(this.device_id)!=='undefined' && this.device_id!==null){
                 //only update counter if we know device_id. the first time gets installed, 
                 //we wont be able to get device_id cos it can take some time to come back from registering
                 //with apple/google
@@ -280,6 +280,15 @@ define(function (require) {
                                 that.message_count = data.count;
                             });
 
+                            //set the attribute "seen" to 1
+                            console.log("data.get('seen') is ");
+                            console.log(data.get('seen'));
+                            
+                            data.set('seen', '1');
+                            
+                            console.log("and now data.get('seen') is ");
+                            console.log(data.get('seen'));
+
                         },
                         error: function(){
                             console.log('failed to fecth artcie'); 
@@ -299,6 +308,15 @@ define(function (require) {
                     $.when(articleView.saveView()).done(function(data){
                         that.message_count = data.count;
                     });
+                    
+                    //set the attribute "seen" to 1
+                    console.log("articles.get(id).get('seen') is ");
+                    console.log(articles.get(id).get('seen'));
+
+                    articles.get(id).set('seen', '1');
+
+                    console.log("and now articles.get(id).get('seen') is ");
+                    console.log(articles.get(id).get('seen'));
                             
                 }
 
@@ -310,20 +328,29 @@ define(function (require) {
             
             require(["app/models/article", "app/views/ArticleList"], function (models, ArticleList) {
              
-                articles = new models.ArticleCollection({device_id: that.device_id, project_title: project_title
-                                                        });
-    
-                articles.fetch({
-                    api: true,
-                    headers: {device_id:that.device_id,api_key:that.api_key},
-                    success: function (collection) {
-                        that.body.removeClass('left-nav');
-                        slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
-                    }, 
-                    error: function(){
-                        console.log('failed to fecth artcie');
-                    }
-                });   
+                if(typeof(articles)==='undefined' || articles===null){
+                    
+                    articles = new models.ArticleCollection({device_id: that.device_id, project_title: project_title
+                                                            });
+
+                    articles.fetch({
+                        api: true,
+                        headers: {device_id:that.device_id,api_key:that.api_key},
+                        success: function (collection) {
+                            that.body.removeClass('left-nav');
+                            slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
+                        }, 
+                        error: function(){
+                            console.log('failed to fecth artcie');
+                        }
+                    }); 
+
+                }
+                else{
+                    that.body.removeClass('left-nav');
+                    slider.slidePage(new ArticleList({collection: articles,message_count:that.message_count}).$el);
+                }
+  
 
             });
         },

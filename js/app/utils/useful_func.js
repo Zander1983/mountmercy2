@@ -60,22 +60,19 @@ define(function (require) {
     };
     
     UsefulFuncs.updateCountEl = function (count) {
-            console.log('in updateCountEl ');
+          
             var el = $('#message-count');
-            console.log('el is ');
-            console.log(el);
+        
             if(count>0){
-                console.log('in updateCountEl if and count is ');
-                console.log(count);
+         
                 el.html(count);
                 if(!el.hasClass('topcoat-notification')){
                     el.addClass('topcoat-notification');
                 }
-                console.log('outerHTML is ');
-                console.log(el[0].outerHTML);
+         
             }
             else{
-                console.log('in updateCountEl else');
+          
                 //so its 0, remove class and empty html
                 el.removeClass('topcoat-notification');
                 el.empty();
