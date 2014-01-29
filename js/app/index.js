@@ -185,6 +185,7 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         
+        alert('in device ready');
         console.log('************HIDING SPLASH SCREEN');
         navigator.splashscreen.show();
 
