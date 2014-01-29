@@ -340,6 +340,13 @@ define(function (require) {
                                                                       project_title: project_title
                                                                         });
                 
+                console.log('in updateMessageCounter and that.device_id is ');
+                console.log(that.device_id);
+                console.log('in updateMessageCounter and that.api_key is ');
+                console.log(that.api_key);
+                console.log('in updateMessageCounter and project_title is ');
+                console.log(project_title);
+                
                 return article_view_count.fetch( 
                     {
                     api: true,
