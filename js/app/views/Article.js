@@ -25,8 +25,13 @@ define(function (require) {
         saveView: function(){
    
             var viewDetails = [];
+            
+            this.storage = window.localStorage;
 
-            viewDetails.device_id = this.options.device_id;
+            this.device_id = this.storage.getItem(project_title+'_device_id');
+            this.api_key = this.storage.getItem(project_title+'_api_key');
+
+            viewDetails.device_id = this.device_id;
             viewDetails.article_id = this.model.id;
             viewDetails.project_title = project_title;
             
@@ -36,14 +41,15 @@ define(function (require) {
             return article_view.save(viewDetails, 
                             {
                             api:true,
-                            headers: {device_id:this.options.device_id,
-                            api_key:this.options.api_key},
+                            headers: {device_id:this.device_id,
+                            api_key:this.api_key},
                             success: function(data) {
-
+                                   
                                     Useful.updateCountEl(data.get('count'));
                                
                                 },
                                 error:   function(model, xhr, options){
+                                  
                                    //alert('Error setting to 1')
                                    //console.log(xhr.responseText);
                                 },
