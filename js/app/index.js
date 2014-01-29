@@ -184,11 +184,7 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        
-        /*
-        alert('in device ready');
-        console.log('************HIDING SPLASH SCREEN');
-        navigator.splashscreen.show();*/
+   
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
