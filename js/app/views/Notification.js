@@ -54,12 +54,8 @@ define(function (require) {
                                     api:true,
                                     update_notification:true,
                                     headers: {device_id:this.model.id,
-                                    api_key:that.storage.getItem("mountmercy_api_key")},
+                                    api_key:that.storage.getItem(project_title+"_api_key")},
                                     success: function() {
-                                            //alert('its updated');
-                                            //that.storage.removeItem('mountmercy_device_id');
-                                            //that.storage.removeItem('mountmercy_api_key');
-                                            //that.deviceModel.unset('id');
                                         },
                                         error:   function(model, xhr, options){
                                            //alert('Error setting to 1')
@@ -89,13 +85,9 @@ define(function (require) {
                                         api:true,
                                         update_notification:true,
                                         headers: {device_id:this.model.id,
-                                        api_key:that.storage.getItem("mountmercy_api_key")},
+                                        api_key:that.storage.getItem(project_title+"_api_key")},
                                         success: function(data) {
                                                 
-                                                //alert('its updated');
-                                                //that.storage.removeItem('mountmercy_device_id');
-                                                //that.storage.removeItem('mountmercy_api_key');
-                                                //that.deviceModel.unset('id');
                                             },
                                         error:   function(model, xhr, options){
                                            //alert('Error setting to 0')

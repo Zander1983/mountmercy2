@@ -125,7 +125,7 @@ var app = {
             $.ajax({
                 url: url,
                 type: "post",
-                data: {project_title: 'mountmercy', platform: window.device.platform},
+                data: {project_title: project_title, platform: window.device.platform},
                 pure_ajax: true,
                 headers :{device_id:"63843",
                 api_key:"hv7Vgd4jsbb"},
@@ -136,8 +136,8 @@ var app = {
                 
                     var device_id = obj.id;
                     var api_key = obj.api_key;
-                    window.localStorage.setItem('mountmercy_device_id', device_id);
-                    window.localStorage.setItem('mountmercy_api_key', api_key);
+                    window.localStorage.setItem(project_title+'_device_id', device_id);
+                    window.localStorage.setItem(project_title+'_api_key', api_key);
 
                     //now update the Reg Id
                     app.updateRegId(device_id, api_key, reg_id);
@@ -212,8 +212,8 @@ var app = {
      */        
     tokenHandler:function(status) {
        
-        var device_id = window.localStorage.getItem('mountmercy_device_id');
-        var api_key = window.localStorage.getItem('mountmercy_api_key');
+        var device_id = window.localStorage.getItem(project_title+'_device_id');
+        var api_key = window.localStorage.getItem(project_title+'_api_key');
         
         if(typeof(device_id)==='undefined' || device_id===null){
             //we dont have a device id so register it and save to local storage. 
@@ -241,8 +241,8 @@ var app = {
                 if ( e.regid.length > 0 )
                 {
                     
-                    var device_id = window.localStorage.getItem('mountmercy_device_id');
-                    var api_key = window.localStorage.getItem('mountmercy_api_key');
+                    var device_id = window.localStorage.getItem(project_title+'_device_id');
+                    var api_key = window.localStorage.getItem(project_title+'_api_key');
 
 
                     if(typeof(device_id)==='undefined' || device_id===null){

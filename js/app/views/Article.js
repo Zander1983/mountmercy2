@@ -41,10 +41,7 @@ define(function (require) {
                             success: function(data) {
 
                                     Useful.updateCountEl(data.get('count'));
-                                   // return data;
-                                    //that.storage.removeItem('mountmercy_device_id');
-                                    //that.storage.removeItem('mountmercy_api_key');
-                                    //that.deviceModel.unset('id');
+                               
                                 },
                                 error:   function(model, xhr, options){
                                    //alert('Error setting to 1')
