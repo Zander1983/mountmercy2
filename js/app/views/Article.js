@@ -44,12 +44,12 @@ define(function (require) {
                             headers: {device_id:this.device_id,
                             api_key:this.api_key},
                             success: function(data) {
-                                   
+                                    console.log('successully recorded the view');
                                     Useful.updateCountEl(data.get('count'));
                                
                                 },
                                 error:   function(model, xhr, options){
-                                  
+                                    console.log('could not record the view');
                                    //alert('Error setting to 1')
                                    //console.log(xhr.responseText);
                                 },
