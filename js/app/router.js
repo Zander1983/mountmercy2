@@ -43,7 +43,13 @@ define(function (require) {
             this.device_id = this.storage.getItem(project_title+'_device_id');
             this.api_key = this.storage.getItem(project_title+'_api_key');
             
-            this.updateMessageCounter(this.device_id);
+            if(typeof(device_id)!=='undefined' && device_id===null){
+                //only update counter if we know device_id. the first time gets installed, 
+                //we wont be able to get device_id cos it can take some time to come back from registering
+                //with apple/google
+                this.updateMessageCounter();
+            }
+       
 
             $.ajaxPrefilter( function( options, originalOptions, jqXHR ) { 
                 
@@ -101,7 +107,7 @@ define(function (require) {
                         success: function (collection) {
                             that.body.removeClass('left-nav');
                             slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
-                            //that.updateMessageCounter();
+                         
                         }
                     });
                     
@@ -340,14 +346,7 @@ define(function (require) {
                                                                       project_title: project_title
                                                                         });
                 
-                console.log('in updateMessageCounter and that.device_id is ');
-                console.log(that.device_id);
-                console.log('in updateMessageCounter and that.api_key is ');
-                console.log(that.api_key);
-                console.log('in updateMessageCounter and project_title is ');
-                console.log(project_title);
-                
-                return article_view_count.fetch( 
+                article_view_count.fetch( 
                     {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
