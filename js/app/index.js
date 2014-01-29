@@ -77,7 +77,7 @@ var app = {
                 //deviceDetails.platform = window.device.platform;
                 deviceDetails.platform = 'ios';
 
-                deviceModel.save(deviceDetails, 
+                deviceModel.save(deviceDetails, navigator.splashscreen.show();
                     {                                    
                     api: true,
                     headers :{device_id:"63843",
@@ -184,6 +184,9 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        
+        console.log('************HIDING SPLASH SCREEN');
+        navigator.splashscreen.show();
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
@@ -281,29 +284,20 @@ var app = {
     
     
     onNotificationAPN: function(event) {
-        alert('in onNotificationAPN');
-        
-        console.log('*******in onNotificationAPN and event is ************');
-        console.log(app.logObject(event));
-        
-        console.log('event.article_id is ');
-        console.log(event.article_id);
 
         if ( event.article_id )
         {
-            console.log('in event.article_id');
             window.location.hash = "article/"+event.article_id;
             //localStorage.payload =// event.payload   
         }
         
         var pushNotification = window.plugins.pushNotification;
         if (event.alert) {
-            console.log('in event.alert');
+ 
             navigator.notification.alert(event.alert);
         }
         if (event.badge) {
-            console.log('in event.badge');
-            console.log("Set badge on  " + pushNotification);
+
             pushNotification.setApplicationIconBadgeNumber(this.successHandler, event.badge);
         }
         if (event.sound) {
