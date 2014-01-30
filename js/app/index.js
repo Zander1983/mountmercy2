@@ -1,21 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -23,88 +6,8 @@ var app = {
         this.bindEvents();
         
     },
-            
-    logObject: function(obj)
-    {
-        var ind = "";
-        if (arguments.length > 1)
-        {
-            ind = arguments[1];
-        }
-
-        if (typeof obj == "undefined" || obj == null)
-        {
-            console.log("<null>");
-            return;
-        }
-
-        if (typeof obj != "object")
-        {
-            console.log(obj);
-            return;
-        }
-
-        for (var key in obj)
-        {
-            if (typeof obj[key] == "object")
-            {
-                console.log(ind + key + "={");
-                this.logObject(obj[key], ind + "  ");
-                console.log(ind + "}");
-            }
-            else
-            {
-                console.log(ind + key + "=" + obj[key]);
-            }
-        }
-    },
+  
     
-    /*
-    testDevice: function(){
-
-        console.log('in testDevice');
-        require(["app/models/device"], function (models) {
-                
-                console.log('in the require device');
-                var deviceModel = new models.Device();
-
-                var deviceDetails = [];
-
-                deviceDetails.project_title = 'mountmercy';
-
-                console.log('in saveRegId ');
-
-                //deviceDetails.platform = window.device.platform;
-                deviceDetails.platform = 'ios';
-
-                deviceModel.save(deviceDetails, navigator.splashscreen.show();
-                    {                                    
-                    api: true,
-                    headers :{device_id:"63843",
-                    api_key:"hv7Vgd4jsbb"},
-                    success: function (data) {
-                        //alert('successfully saved');
-                        var device_id = data.id;
-                        var api_key = data.get('api_key');
-                        window.localStorage.setItem('mountmercy_device_id', device_id);
-                        window.localStorage.setItem('mountmercy_api_key', api_key);
-
-                        //now update the Reg Id
-                        //this.updateRegId(device_id, api_key, '');
-                    },
-                    error:   function(model, xhr, options){
-                        //alert('there was an error 2');
-                        console.log('***********error is *******************');
-                        console.log(xhr);
-                    },
-                });
-
-            }); 
-
-    },*/
-            
-  
-  
     // Bind Event Listeners
 
     bindEvents: function() {
@@ -119,7 +22,7 @@ var app = {
      */
     registerDeviceWithServer: function(reg_id){
  
-            var url = "http://push.schoolspace.ie/device_api/device";
+            var url = server_url+"/device_api/device";
             //var url = "http://localhost/schoolspace/device_api/device";
            
             $.ajax({
@@ -127,8 +30,8 @@ var app = {
                 type: "post",
                 data: {project_title: project_title, platform: window.device.platform},
                 pure_ajax: true,
-                headers :{device_id:"63843",
-                api_key:"hv7Vgd4jsbb"},
+                headers :{device_id:standard_device_id,
+                api_key:standard_api_key},
                 success: function(data){
                     //alert("success in registerDeviceWithServer and id is");
                     
@@ -154,7 +57,7 @@ var app = {
     
     updateRegId: function(device_id, api_key, reg_id){
         
-            var url = "http://push.schoolspace.ie/device_api/device/"+device_id;
+            var url = server_url+"/device_api/device/"+device_id;
    
             $.ajax({
                 url: url,
@@ -168,10 +71,7 @@ var app = {
                     
                 },
                 error:   function(model, xhr, options){
-                    //alert('failed in updateRegId');
-                    // alert('in Error');
-                    console.log('response is : ');
-                    console.log(app.logObject(xhr));
+       
                 },
             });
             
@@ -188,7 +88,7 @@ var app = {
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
-            pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"475226855592","ecb":"app.onNotificationGCM"});                        
+            pushNotification.register(app.successHandler, app.errorHandler,{"senderID":project_number,"ecb":"app.onNotificationGCM"});                        
         }
         else{
             //so its apple

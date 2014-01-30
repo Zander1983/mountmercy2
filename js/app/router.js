@@ -63,11 +63,11 @@ define(function (require) {
                     
                     if(options.update_notification==true){
                        //options.url = "http://localhost/schoolspace/device_api/update_notification" + options.url+"";   
-                       options.url = "http://push.schoolspace.ie/device_api/update_notification" + options.url+"";   
+                       options.url = server_url+"/device_api/update_notification" + options.url+"";   
                     }
                     else{
                         //options.url = "http://localhost/schoolspace/device_api" + options.url;   
-                        options.url = "http://push.schoolspace.ie/device_api" + options.url;                        
+                        options.url = server_url+"/device_api" + options.url;                        
                     }
                     
                 }
@@ -95,9 +95,6 @@ define(function (require) {
 
         getNews: function (id) {
             require(["app/models/news", "app/views/NewsList"], function (model, NewsList) {
-       
-                console.log('in getNews and that.message_count is ');
-                console.log(that.message_count);
        
                 if(typeof(news)==='undefined' || news===null){
                     news = new model.NewsCollection();
@@ -201,16 +198,7 @@ define(function (require) {
                 
                 var contactView = new Contact({message_count:that.message_count}).$el; 
                 slider.slidePage(contactView);   
-                
-                console.log('contactView is ');
-                console.log(contactView);
-                console.log('find is ');
-                console.log(contactView.find('#message-count'));
-                
-                var el = $('#message-count');
-                console.log('outerHTML is ');
-                console.log(el[0].outerHTML);
-                
+            
              });
         },
                 
@@ -280,14 +268,8 @@ define(function (require) {
                                 that.message_count = data.count;
                             });
 
-                            //set the attribute "seen" to 1
-                            console.log("data.get('seen') is ");
-                            console.log(data.get('seen'));
-                            
+                            //set the attribute "seen" to 1               
                             data.set('seen', '1');
-                            
-                            console.log("and now data.get('seen') is ");
-                            console.log(data.get('seen'));
 
                         },
                         error: function(){
@@ -308,16 +290,9 @@ define(function (require) {
                     $.when(articleView.saveView()).done(function(data){
                         that.message_count = data.count;
                     });
-                    
-                    //set the attribute "seen" to 1
-                    console.log("articles.get(id).get('seen') is ");
-                    console.log(articles.get(id).get('seen'));
 
                     articles.get(id).set('seen', '1');
 
-                    console.log("and now articles.get(id).get('seen') is ");
-                    console.log(articles.get(id).get('seen'));
-                            
                 }
 
             });
@@ -357,8 +332,7 @@ define(function (require) {
         
                 
         getAboutUs: function () {
-            
-            
+                       
             require(["app/views/AboutUs"], function (AboutUs) { 
                 that.body.removeClass('left-nav');
                 slider.slidePage(new AboutUs({message_count:that.message_count}).$el);               
@@ -378,16 +352,10 @@ define(function (require) {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (data) {
-                        console.log('in updateMessageCounter success and count is ');
-                        console.log(data.get('count'));
+
                         that.message_count = data.get('count');
                         Useful.updateCountEl(that.message_count);
-                        /*if(message_count>0){
-                            //topcoat-notification
-                            var unread = $('#unread-count');
-                            unread.html(message_count);
-                            unread.addClass('topcoat-notification');
-                        }*/
+     
                     },
                     error: function(){
                         console.log('failed updateMessageCounter');
