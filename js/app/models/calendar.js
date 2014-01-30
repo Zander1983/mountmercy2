@@ -51,11 +51,10 @@ define(function (require) {
                     endDateTime = when[0]['attributes']['endTime']['value'];  
                     
                     var t = startDateTime.indexOf("T");
-                    if(t !== -1){                      
+                    if(t !== -1){
                         //so there is a time, extract it
-                        startTime = startDateTime.substring(t+1,t+6);                    
+                        startTime = startDateTime.substring(t+1,t+6);
                         startDate = startDateTime.substring(0,t);
-
                     }
                     else{
                         //no time, so set the date

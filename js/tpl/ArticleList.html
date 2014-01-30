@@ -17,7 +17,7 @@
 
 <div class="main-content">
     <ul class="topcoat-list list" id="article-list">
-    <% _.every(article, function(item) { %>
+    <% _.each(article, function(item) { %>
     <li class="topcoat-list__item" data-id="<%= item.id %>">
             <a href="#article/<%= item.id %>">
                 <img src="img/crestmmc.png" />
@@ -31,9 +31,7 @@
             </a>
         </li>
     <%
-        if(item.id==10){
-            return false;
-        }
+     
         return true;
     }); %>
     </ul>
