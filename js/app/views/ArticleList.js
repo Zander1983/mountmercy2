@@ -16,10 +16,6 @@ define(function (require) {
         initialize: function () {
             this.render();
             this.collection.on("reset", this.render, this);
-            
-            console.log('seen attribute in first model is ');
-            
-            console.log(this.collection.first().get('seen'));
         },
 
         render: function () {

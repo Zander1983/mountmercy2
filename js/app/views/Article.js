@@ -37,19 +37,18 @@ define(function (require) {
             
             var article_view = new models.ArticleView();
 
-            console.log('before article_view.save');
             return article_view.save(viewDetails, 
                             {
                             api:true,
                             headers: {device_id:this.device_id,
                             api_key:this.api_key},
                             success: function(data) {
-                                    console.log('successully recorded the view');
+                                    //console.log('successully recorded the view');
                                     Useful.updateCountEl(data.get('count'));
                                
                                 },
                                 error:   function(model, xhr, options){
-                                    console.log('could not record the view');
+                                    //console.log('could not record the view');
                                    //alert('Error setting to 1')
                                    //console.log(xhr.responseText);
                                 },
@@ -57,20 +56,6 @@ define(function (require) {
     
         },    
         
-        setMessageCount: function(new_count){
-            console.log('in setMessageCount and new_count is ');
-            console.log(new_count);
-            this.message_count = new_count;
-            
-        },
-                
-        getMessageCount: function(){
-    
-            console.log('in getMessageCount and message_count is ');
-            console.log(this.message_count);
-    
-            return this.message_count;
-        },
 
         render: function (options) {
             
