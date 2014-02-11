@@ -20,21 +20,13 @@
     <div id="inner-container">
         <h3>Would you like to receive push notifications?</h3>
 
- 
-            <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" 
-                       <% if(notification==1)print("checked"); %> >
-                <label class="onoffswitch-label" for="myonoffswitch">
-                    <div class="onoffswitch-inner"></div>
-                    <div class="onoffswitch-switch"></div>
-                </label>
-            </div>
-            
-            <!--
-            <label class="topcoat-switch">
-              <input type="checkbox" class="topcoat-switch__input" id="notification">
-              <div class="topcoat-switch__toggle"></div>
-            </label>-->
+
+            <label class="topcoat-checkbox">
+              <input type="checkbox" id="myonoffswitch" 
+                     <% if(notification==1)print("checked"); %> >
+              <div class="topcoat-checkbox__checkmark"></div>
+              Notifications
+            </label>
         
         </div>
 </div>

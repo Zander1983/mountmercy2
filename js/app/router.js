@@ -31,18 +31,18 @@ define(function (require) {
             "articles/:project_title": "getArticles",
         },
         
+        
         initialize: function() {   
             
             that = this;
             that.body = $('body');
             
-            this.bind( "route", this.routeChange);
+            //this.bind( "route", this.routeChange);
             
             this.storage = window.localStorage;
 
-            this.device_id = this.storage.getItem(project_title+'_device_id');
-            this.api_key = this.storage.getItem(project_title+'_api_key');
-            
+            this.setDeviceDetails();
+ 
             if(typeof(this.device_id)!=='undefined' && this.device_id!==null){
                 //only update counter if we know device_id. the first time gets installed, 
                 //we wont be able to get device_id cos it can take some time to come back from registering
@@ -67,7 +67,8 @@ define(function (require) {
                     }
                     else{
                         //options.url = "http://localhost/schoolspace/device_api" + options.url;   
-                        options.url = server_url+"/device_api" + options.url;                        
+                        options.url = server_url+"/device_api" + options.url;          
+
                     }
                     
                 }
@@ -77,13 +78,18 @@ define(function (require) {
                     }
                     else{
                         //this is when testing in a browser
-                        //options.url = "http://localhost/schoolspace/cli/mountmercy2/www/scripts" + options.url
-                        options.url = "http://localhost/schoolspace/cli/mountmercy2/www/scripts" + options.url
+                        options.url = 'http://localhost/schoolspace/cli/mountmercy2/www/scripts' + options.url
                     }
                 }
   
            });
 
+        },
+                
+        setDeviceDetails: function(){
+  
+            this.device_id = this.storage.getItem(project_title+'_device_id');
+            this.api_key = this.storage.getItem(project_title+'_api_key');
         },
                 
         routeChange: function(){
@@ -209,19 +215,23 @@ define(function (require) {
                   if(typeof(deviceModel)==='undefined' || deviceModel===null){
 
                         deviceModel = new model.Device({id:that.device_id});
+                        
+                        if(typeof(that.device_id)==='undefined' || that.device_id===null){
+                            that.setDeviceDetails();
+                        }
 
                         if(typeof(that.device_id)==='undefined' || that.device_id===null || typeof(that.api_key)==='undefined' || that.api_key===null){
-                            that.body.removeClass('left-nav');
-                            alert('There was a problem with notifications, please contact the developer');
+                            Useful.correctView(that.body);
+                            Useful.showAlert('Could not get notification settings, please try again later', 'Problem');
                             window.location.hash = "news";
                         }
-                        else{
+                        else{              
                             deviceModel.fetch({
                                 api: true,
                                 headers: {device_id:that.device_id,api_key:that.api_key},        
                                 success: function (data) {
-                                    that.body.removeClass('left-nav');
-                                    slider.slidePage(new Notification({model: data, storage:storage, 
+                                    Useful.correctView(that.body);
+                                    slider.slidePage(new Notification({model: data, 
                                                                         message_count:that.message_count
                                                                         }).$el);                          
                                 }
@@ -229,14 +239,12 @@ define(function (require) {
                         }
                     
                   }else{    
-      
-                        that.body.removeClass('left-nav');
-                        slider.slidePage(new Notification({model: deviceModel, storage:storage, 
+                        Useful.correctView(that.body);
+                        slider.slidePage(new Notification({model: deviceModel, 
                                                             message_count:that.message_count
                                                             }).$el);    
                   }
 
-       
              });
         },
                 
@@ -253,6 +261,10 @@ define(function (require) {
             require(["app/models/article", "app/views/Article"], function (models, Article) {
                                
                 if(typeof(articles)==='undefined' || articles===null){
+                    
+                    if(typeof(that.device_id)==='undefined' || that.device_id===null){
+                        that.setDeviceDetails();
+                    }
 
                     var article = new models.Article({id: id});
 
@@ -262,13 +274,13 @@ define(function (require) {
                         success: function (data) {
                             var articleView = new Article({model: data, message_count:that.message_count});
 
+                            Useful.correctView(that.body);
                             slider.slidePage(articleView.$el);
 
                             $.when(articleView.saveView()).done(function(data){
                                 that.message_count = data.count;
                             });
-
-                            //set the attribute "seen" to 1               
+          
                             data.set('seen', '1');
 
                         },
@@ -284,7 +296,8 @@ define(function (require) {
                                                    api_key:that.api_key,
                                                    message_count:that.message_count
                                                     });
-                    that.body.removeClass('left-nav');
+                                                    
+                    Useful.correctView(that.body);
                     slider.slidePage(articleView.$el);
 
                     $.when(articleView.saveView()).done(function(data){
@@ -305,24 +318,39 @@ define(function (require) {
              
                 if(typeof(articles)==='undefined' || articles===null){
                     
-                    articles = new models.ArticleCollection({device_id: that.device_id, project_title: project_title
-                                                            });
+                    if(typeof(that.device_id)==='undefined' || that.device_id===null){
+                        that.setDeviceDetails();
+                    }
+                    
+                    if(typeof(that.device_id)!=='undefined' && that.device_id!==null){
+                       
+                        articles = new models.ArticleCollection({device_id: that.device_id, project_title: project_title
+                                                                });
 
-                    articles.fetch({
-                        api: true,
-                        headers: {device_id:that.device_id,api_key:that.api_key},
-                        success: function (collection) {
-                            that.body.removeClass('left-nav');
-                            slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
-                        }, 
-                        error: function(){
-                            console.log('failed to fecth artcie');
-                        }
-                    }); 
+                        articles.fetch({
+                            api: true,
+                            headers: {device_id:that.device_id,api_key:that.api_key},
+                            success: function (collection) {
+
+                                Useful.correctView(that.body);
+                                slider.slidePage(new ArticleList({collection: collection,message_count:that.message_count}).$el);
+                            }, 
+                            error: function(model, xhr, options){
+                                    console.log('there was an error, response is ');
+                                    console.log(xhr.responseText);
+                            }
+                        }); 
+                        
+                    }
+                    else{
+                        Useful.showAlert('There was aproblem accessing messages, please close and reopen app and try again', 'One moment...');
+                    }
+
 
                 }
                 else{
-                    that.body.removeClass('left-nav');
+
+                    Useful.correctView(that.body);
                     slider.slidePage(new ArticleList({collection: articles,message_count:that.message_count}).$el);
                 }
   
@@ -352,7 +380,6 @@ define(function (require) {
                     api: true,
                     headers: {device_id:that.device_id,api_key:that.api_key},
                     success: function (data) {
-
                         that.message_count = data.get('count');
                         Useful.updateCountEl(that.message_count);
      

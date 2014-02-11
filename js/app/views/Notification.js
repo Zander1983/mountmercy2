@@ -4,6 +4,7 @@ define(function (require) {
 
     var _                   = require('underscore'),
         Backbone            = require('backbone'),
+        Useful      = require('app/utils/useful_func'),
         tpl                 = require('text!tpl/Notification.html'),
         side_nav            = require('text!tpl/SideNav.html'),
         side_template = _.template(side_nav),
@@ -14,7 +15,7 @@ define(function (require) {
 
         initialize: function (options) {
             
-            this.storage = options.storage;
+            this.storage = window.localStorage;
             this.deviceModel = this.model;
             
             that = this;
@@ -37,14 +38,14 @@ define(function (require) {
         },
  
                 
-        switchClicked:function (event) {   
-
+        switchClicked:function (event) {  
+    
             event.preventDefault();    
             
             var checked = $(event.currentTarget).is(":checked");
             
             if(checked===true){
-
+                
                     var notificationDetails = [];
 
                     notificationDetails.notification = 1;
@@ -62,9 +63,7 @@ define(function (require) {
                                            //console.log(xhr.responseText);
                                         },
                                     });
-                    
-                        console.log("this.model.get('notification') is ");
-                        console.log(this.model.get('notification'));
+            
 
             }
             else{
@@ -72,7 +71,7 @@ define(function (require) {
 
                     if(typeof(this.model.id)==='undefined' || this.model.id===null){
                         //theres a problem, this should be set
-                        alert('There was a problem turning off notifications, please contact the developer');
+                        Useful.showAlert('There was a problem turning off notifications, please contact the developer', 'Problem');
                     }
                     else{
                         
@@ -94,8 +93,7 @@ define(function (require) {
                                            //console.log(xhr.responseText);
                                         },
                                         });
-                            console.log("this.model.get('notification') is ");
-                            console.log(this.model.get('notification'));
+                
                     }
                 
             }

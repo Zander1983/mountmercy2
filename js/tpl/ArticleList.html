@@ -16,23 +16,32 @@
 
 
 <div class="main-content">
-    <ul class="topcoat-list list" id="article-list">
-    <% _.each(article, function(item) { %>
-    <li class="topcoat-list__item" data-id="<%= item.id %>">
-            <a href="#article/<%= item.id %>">
-                <img src="img/crestmmc.png" />
-                <p><% print(item.title) 
-                        if(item.seen!=='1'){
-                            print('<span class="topcoat-notification" >Unread</span>');
-                        }
-                    %></p>
-                <p><%= moment(item.time_created, 'X').format('MMM Do YY') %></p>
-                <span class="chevron"></span>
-            </a>
-        </li>
     <%
-     
-        return true;
-    }); %>
-    </ul>
+    if(is_messages===true){
+    %>
+        <ul class="topcoat-list list" id="article-list">
+        <% _.each(article, function(item) { %>
+        <li class="topcoat-list__item" data-id="<%= item.id %>">
+                <a href="#article/<%= item.id %>">
+                    <img src="img/crest.png" />
+                    <p><% print(item.title) 
+                            if(item.seen!=='1'){
+                                print('<span class="topcoat-notification" >Unread</span>');
+                            }
+                        %></p>
+                    <p><%= moment(item.time_created, 'X').format('MMM Do YY') %></p>
+                    <span class="chevron"></span>
+                </a>
+            </li>
+        <%
+        }); %>
+        </ul>
+    <% }
+        else{ %>
+        
+        <div id="inner-container" class="center">
+            You have no messages from the school
+        </div>
+        
+    <% } %>
 </div>

@@ -22,9 +22,11 @@ var app = {
      */
     registerDeviceWithServer: function(reg_id){
  
+            
             var url = server_url+"/device_api/device";
             //var url = "http://localhost/schoolspace/device_api/device";
            
+          
             $.ajax({
                 url: url,
                 type: "post",
@@ -33,8 +35,7 @@ var app = {
                 headers :{device_id:standard_device_id,
                 api_key:standard_api_key},
                 success: function(data){
-                    //alert("success in registerDeviceWithServer and id is");
-                    
+
                     var obj = jQuery.parseJSON(data);
                 
                     var device_id = obj.id;
@@ -46,8 +47,7 @@ var app = {
                     app.updateRegId(device_id, api_key, reg_id);
                 },
                 error:   function(model, xhr, options){
-                    //alert('failed in registerDeviceWithServer');
-                    // alert('in Error');
+
                     console.log('response is : ');
                     console.log(app.logObject(xhr));
                 },
@@ -88,9 +88,11 @@ var app = {
 
         var pushNotification = window.plugins.pushNotification;
         if (window.device.platform == 'android' || window.device.platform == 'Android') {
+    
             pushNotification.register(app.successHandler, app.errorHandler,{"senderID":project_number,"ecb":"app.onNotificationGCM"});                        
         }
         else{
+      
             //so its apple
             pushNotification.register(app.tokenHandler,app.errorHandler,{"badge":"true","sound":"true","alert":"true","ecb":"app.onNotificationAPN"});
         }
@@ -112,6 +114,7 @@ var app = {
      * For iOS
      */        
     tokenHandler:function(status) {
+        
        
         var device_id = window.localStorage.getItem(project_title+'_device_id');
         var api_key = window.localStorage.getItem(project_title+'_api_key');
@@ -119,7 +122,6 @@ var app = {
         if(typeof(device_id)==='undefined' || device_id===null){
             //we dont have a device id so register it and save to local storage. 
             //should only ever enter here once     
-
             app.registerDeviceWithServer(status);        
 
         }
@@ -135,6 +137,7 @@ var app = {
      */
     onNotificationGCM: function(e) {
       
+
         switch( e.event )
         {
         

@@ -30,29 +30,30 @@ define(function (require) {
 
             this.device_id = this.storage.getItem(project_title+'_device_id');
             this.api_key = this.storage.getItem(project_title+'_api_key');
-
-            viewDetails.device_id = this.device_id;
-            viewDetails.article_id = this.model.id;
-            viewDetails.project_title = project_title;
             
-            var article_view = new models.ArticleView();
 
-            return article_view.save(viewDetails, 
-                            {
-                            api:true,
-                            headers: {device_id:this.device_id,
-                            api_key:this.api_key},
-                            success: function(data) {
-                                    //console.log('successully recorded the view');
-                                    Useful.updateCountEl(data.get('count'));
-                               
-                                },
-                                error:   function(model, xhr, options){
-                                    //console.log('could not record the view');
-                                   //alert('Error setting to 1')
-                                   //console.log(xhr.responseText);
-                                },
-                            });
+            if(typeof(this.device_id)!=='undefined' && this.device_id!==null){
+                viewDetails.device_id = this.device_id;
+                viewDetails.article_id = this.model.id;
+                viewDetails.project_title = project_title;
+
+                var article_view = new models.ArticleView();
+
+                return article_view.save(viewDetails, 
+                                {
+                                api:true,
+                                headers: {device_id:this.device_id,
+                                api_key:this.api_key},
+                                success: function(data) {
+
+                                        Useful.updateCountEl(data.get('count'));
+
+                                    },
+                                    error:   function(model, xhr, options){
+                                
+                                    },
+                                });
+            }
     
         },    
         
