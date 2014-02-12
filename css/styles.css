@@ -4,12 +4,8 @@ html, body{
     overflow-x:hidden;
     height:100%;
     width:100%;
-    background-color: #fff;
 }
 
-h1, h2, h3, h4{
-    color: #2e5389;
-}
 
 a {
     text-decoration: none;
@@ -18,23 +14,12 @@ a {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-.topcoat-list{
-    background-color: inherit;
-    list-style-type: none;
-}
-
-.topcoat-list__item{
-    border-bottom: none;
-    border-top: none;
-}
-
 
 .list li {
     position: relative;
     text-align: left;
     clear: both;
-    padding: 12px 60px 16px 8px !important;
-    overflow: hidden;
+   /* padding: 12px 60px 16px 8px !important;*/
 }
 
 
@@ -54,8 +39,8 @@ a {
 }
 
 .list > li img {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     float: left;
     margin-top: 0px;
     margin-right: 8px;
@@ -65,7 +50,7 @@ a {
 
 li.tappable-active {
     color: #fff;
-    background-color: #6599ff;
+    background-color: #353535;
 }
 
 li.tappable-active p {
@@ -73,13 +58,16 @@ li.tappable-active p {
 }
 
 li.side-nav-active {
-    color: #fff;
-    background-color: #bcbfbf;
+    color: #000;
+    background-color: #dfe2e2;
 }
 
+li.side-nav-active a{
+    color: #000;
+}
 
 .chevron {
-    background: transparent url(images/next_green.png);
+    background: transparent url(images/next_blue.svg);
     background-repeat: no-repeat;
     background-size: contain;
     width: 20px;
@@ -91,10 +79,11 @@ li.side-nav-active {
     width: 28px;
 }
 
-
 .topcoat-navigation-bar{
     background-color: #6599ff;
+    
 }
+
 
 .topcoat-navigation-bar__item, .topcoat-navigation-bar__title{
     color:#fff;
@@ -113,6 +102,7 @@ body.left-nav .topcoat-navigation-bar, body.left-nav .main-content {
     transform: translate3d(0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
 }
+
 
 .side-nav {
     /*diaplay:none;*/
@@ -188,11 +178,11 @@ body.left-nav .topcoat-navigation-bar, body.left-nav .main-content {
     -webkit-overflow-scrolling: touch;*/
     overflow-x:hidden;
     position: absolute;
-    background: #fff;
+    background: #dfe2e2;
     left: 0;
     padding-top:4rem;
     width:100%;
-    min-height:550px;
+    min-height:950px;
     transition: left 0.2s ease-out;
     -webkit-transition: left 0.2s ease-out;
     transform: translate3d(0, 0, 0);
@@ -240,16 +230,15 @@ html, body, #map-container{
 }
 
 #inner-container{
-    padding:1.5rem 1rem 0 1rem;
-}
-
-#inner-container-centered{
-    padding:1.5rem 1rem 0 1rem;
-    text-align:center;
+    padding:0 1rem 0 1rem;
 }
 
 #inner-container img{
     max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:5px;
 }
 
 
@@ -273,9 +262,6 @@ html, body, #map-container{
     font-weight: bold;
 }
 
-.img-span span{
-    clear:both;
-}
 
 .img-span img{
     float:left;
@@ -286,74 +272,11 @@ html, body, #map-container{
     float:left;
 }
 
-
-
-/* Extra Curricular */
-
-.ex-type {
-    
-    /*background-repeat: repeat-x;
-    color: #fff;
-    */
-    font-size: 2em;
-    /*text-align: center;*/
-    font-weight: 800;
+.topcoat-list{
+    list-style-type: none;
 }
 
-.basketball{
-     /*   background-image: url(./images/basketball_bg.jpg);*/
-     color:#c47113;
-}
 
-.camogie{
-    /*
-        background-image: url(./images/camogie_bg.jpg);*/
-    color:#325e9d;
-}
-
-.debating{
-    /*
-        background-image: url(./images/debating_bg.jpg);*/
-    color:#a51a75;
-}
-
-.ecdl{
-    /*
-        background-image: url(./images/ecdl_bg.jpg);*/
-    color:#67a119;
-}
-
-.football{
-    color:#999999;
-}
-
-.gaisce{
-    color:#ac2217;
-}
-
-.diograis{
-    color:#2e6706;
-}
-
-.green-schools{
-    color:#56309d;
-}
-
-.hockey{
-    color:#9a196c;
-}
-
-.music{
-    color:#325b9b;
-}
-
-.scientist{
-    color:#bd6c10;
-}
-
-.innovators{
-    color:#f90d02;
-}
 
 
 /**** Calendar CSS *****/
@@ -390,63 +313,15 @@ html, body, #map-container{
     font-weight:bold;
     font-size:1.3em;
     width:42px;
-    text-align:center; 
-   // margin-top:-9px;
+    text-align:center;
 }
 
 /**** end of calendar *****/
 
-/********** on off switch ***********/
+/*
+Pictures CSS
+*/
 
-.onoffswitch {
-    position: relative; width: 90px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 20px;
-}
-.onoffswitch-inner {
-    width: 200%; margin-left: -100%;
-    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "ON";
-    padding-left: 10px;
-    background-color: #2FCCFF; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "OFF";
-    padding-right: 10px;
-    background-color: #EEEEEE; color: #999999;
-    text-align: right;
-}
-.onoffswitch-switch {
-    width: 18px; margin: 6px;
-    background: #FFFFFF;
-    border: 2px solid #999999; border-radius: 20px;
-    position: absolute; top: 0; bottom: 0; right: 56px;
-    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
-}
-
-li.raised{
-    boder:8px outset #999;
-    -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-    -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+ul#picture-list > li{
+    display: inline-block; 
 }

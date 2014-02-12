@@ -80,6 +80,33 @@ define(function (require) {
 
     };
     
+    UsefulFuncs.correctView = function(body){
+            
+           body.removeClass('left-nav');
+           body.scrollTop(0);
+    };
+    
+
+    
+    UsefulFuncs.showAlert = function(text, title) {
+ 
+        navigator.notification.alert(
+            text,  // message
+            function(){},         // callback
+            title            // title
+        );
+    };
+    
+    UsefulFuncs.showConfirm = function(text, title, klass) {
+        return confirm(text);
+        
+        //navigator.notification.confirm();
+        /*$('.alert').removeClass("alert-error alert-warning alert-success alert-info");
+        $('.alert').addClass(klass);
+        $('.alert').html('<strong>' + title + '</strong> ' + text);
+        $('.alert').show();*/
+    };
+    
     return UsefulFuncs;
 
     

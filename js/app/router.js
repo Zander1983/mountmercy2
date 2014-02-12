@@ -4,8 +4,8 @@ define(function (require) {
 
     var Backbone    = require('backbone'),
         PageSlider  = require('app/utils/pageslider'),
-        Useful              = require('app/utils/useful_func'),
-        slider = new PageSlider($('body')),
+        Useful      = require('app/utils/useful_func'),
+        slider      = new PageSlider($('body')),
         news,
         calendar,
         articles,
@@ -106,9 +106,9 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
-                            that.body.removeClass('left-nav');
+                            Useful.correctView(that.body);
                             slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
                          
                         }
@@ -116,7 +116,7 @@ define(function (require) {
                     
                 }
                 else{
-                    that.body.removeClass('left-nav');
+                    Useful.correctView(that.body);
                     slider.slidePage(new NewsList({collection: news, message_count:that.message_count}).$el);
                 }
                             
@@ -134,13 +134,13 @@ define(function (require) {
                     calendar.fetch({
                         full_url: true,
                         success: function (collection) {
-                            that.body.removeClass('left-nav');
+                            Useful.correctView(that.body);
                             slider.slidePage(new CalendarList({collection: collection, message_count:that.message_count}).$el);                          
                         }
                     });
                 }
                 else{
-                    that.body.removeClass('left-nav');
+                    Useful.correctView(that.body);
                     slider.slidePage(new CalendarList({collection: calendar, message_count:that.message_count}).$el);
                 }
                             
@@ -150,7 +150,7 @@ define(function (require) {
         getNewsItem: function (id) {
 
             require(["app/views/NewsItem"], function (NewsItem) {
-                that.body.removeClass('left-nav');
+                 Useful.correctView(that.body);
                  slider.slidePage(new NewsItem({model: news.get(id), message_count:that.message_count}).$el);
                                  
             });
@@ -159,7 +159,7 @@ define(function (require) {
         getCalendarItem: function (id) {
 
             require(["app/views/CalendarItem"], function (CalendarItem) {
-                that.body.removeClass('left-nav');
+                 Useful.correctView(that.body);
                  slider.slidePage(new CalendarItem({model: calendar.get(id), message_count:that.message_count}).$el);
                                  
             });
@@ -169,7 +169,7 @@ define(function (require) {
         getExtraCurricular: function () {
     
             require(["app/views/ExtraCurricularList"], function (ExtraCurricularList) {
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
 
                 slider.slidePage(new ExtraCurricularList({message_count:that.message_count}).$el);
                                     
@@ -180,7 +180,7 @@ define(function (require) {
         getExtraCurricularItem: function (type) {
             
             require(["app/views/ExtraCurricularItem"], function (ExtraCurricularItem) { 
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
                 slider.slidePage(new ExtraCurricularItem({type:type, message_count:that.message_count}).$el);               
              });
         },
@@ -190,7 +190,7 @@ define(function (require) {
             require(["app/views/Map"], function (Map) {    
                 var mapView = new Map({message_count:that.message_count});
                 //mapView.delegateEvents();
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
                 slider.slidePage(mapView.$el);
                 mapView.render();
                 //google.maps.event.trigger(mapView.map, 'resize');
@@ -200,7 +200,7 @@ define(function (require) {
         getContact: function () {
             
             require(["app/views/Contact"], function (Contact) { 
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
                 
                 var contactView = new Contact({message_count:that.message_count}).$el; 
                 slider.slidePage(contactView);   
@@ -251,7 +251,7 @@ define(function (require) {
         getWayPay: function () {
             
             require(["app/views/WayPay"], function (WayPay) {
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
                 slider.slidePage(new WayPay({message_count:that.message_count}).$el);               
              });
         },
@@ -343,7 +343,7 @@ define(function (require) {
                         
                     }
                     else{
-                        Useful.showAlert('There was aproblem accessing messages, please close and reopen app and try again', 'One moment...');
+                        Useful.showAlert('There was a problem accessing messages, please close and reopen app and try again', 'One moment...');
                     }
 
 
@@ -362,7 +362,7 @@ define(function (require) {
         getAboutUs: function () {
                        
             require(["app/views/AboutUs"], function (AboutUs) { 
-                that.body.removeClass('left-nav');
+                Useful.correctView(that.body);
                 slider.slidePage(new AboutUs({message_count:that.message_count}).$el);               
              });
         },
