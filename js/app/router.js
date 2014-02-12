@@ -106,11 +106,12 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             Useful.correctView(that.body);
-                            slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
-                         
+                            if(Backbone.history.fragment==="" || Backbone.history.fragment==="news"){
+                                slider.slidePage(new NewsList({collection: collection, message_count:that.message_count}).$el);    
+                            }
                         }
                     });
                     
