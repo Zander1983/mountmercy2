@@ -182,7 +182,7 @@ body.left-nav .topcoat-navigation-bar, body.left-nav .main-content {
     left: 0;
     padding-top:4rem;
     width:100%;
-    min-height:950px;
+    min-height:600px;
     transition: left 0.2s ease-out;
     -webkit-transition: left 0.2s ease-out;
     transform: translate3d(0, 0, 0);
@@ -230,7 +230,7 @@ html, body, #map-container{
 }
 
 #inner-container{
-    padding:0 1rem 0 1rem;
+    padding:1rem 1rem 0 1rem;
 }
 
 #inner-container img{
@@ -325,3 +325,71 @@ Pictures CSS
 ul#picture-list > li{
     display: inline-block; 
 }
+
+
+/* Extra Curricular */
+ 
+ .ex-type {
+     
+     /*background-repeat: repeat-x;
+     color: #fff;
+     */
+     font-size: 2em;
+     /*text-align: center;*/
+     font-weight: 800;
+ }
+ 
+ .basketball{
+      /*   background-image: url(./images/basketball_bg.jpg);*/
+      color:#c47113;
+ }
+ 
+ .camogie{
+     /*
+         background-image: url(./images/camogie_bg.jpg);*/
+     color:#325e9d;
+ }
+ 
+ .debating{
+     /*
+         background-image: url(./images/debating_bg.jpg);*/
+     color:#a51a75;
+ }
+ 
+ .ecdl{
+     /*
+         background-image: url(./images/ecdl_bg.jpg);*/
+     color:#67a119;
+ }
+ 
+ .football{
+     color:#999999;
+ }
+ 
+ .gaisce{
+     color:#ac2217;
+ }
+ 
+ .diograis{
+     color:#2e6706;
+ }
+ 
+ .green-schools{
+     color:#56309d;
+ }
+ 
+ .hockey{
+     color:#9a196c;
+ }
+ 
+ .music{
+     color:#325b9b;
+ }
+  
+ .scientist{
+     color:#bd6c10;
+ }
+  
+ .innovators{
+     color:#f90d02;
+ }

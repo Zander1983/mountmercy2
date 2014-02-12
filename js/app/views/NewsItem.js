@@ -21,6 +21,25 @@ define(function (require) {
         
         events: {
             "click #slide-menu-button"   : "slideMenu",
+            "click #inner-container a"   : 'linkClicked'
+        },
+        
+        
+        linkClicked: function(e){
+    
+            console.log('in linkClicked');
+    
+            var href = $(e.currentTarget).attr('href');
+            
+            if (window.device.platform == 'android' || window.device.platform == 'Android') {
+                //Android ONLY - ios can you inAppBrowser
+                navigator.app.loadUrl(href, { openExternal:true });
+            
+            }
+            else{
+                window.open(href, '_blank');
+            }
+            
         },
 
         render: function () {

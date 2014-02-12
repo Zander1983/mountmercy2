@@ -10,6 +10,8 @@ define(function (require) {
         calendar,
         articles,
         deviceModel,
+        photos,
+        albums,
         that;
 
     return Backbone.Router.extend({
@@ -29,6 +31,9 @@ define(function (require) {
             "waypay": "getWayPay",
             "article/:id": "getArticle",
             "articles/:project_title": "getArticles",
+            "albums": "getAlbums",
+            "photos/:id": "getPhotos",
+            "photo-item/:id": "getPhotoItem",
         },
         
         
@@ -106,7 +111,7 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             if(Backbone.history.fragment==="" || Backbone.history.fragment==="news"){
@@ -133,7 +138,7 @@ define(function (require) {
                     calendar = new model.CalendarCollection();
                     
                     calendar.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             slider.slidePage(new CalendarList({collection: collection, message_count:that.message_count}).$el);                          
@@ -366,6 +371,69 @@ define(function (require) {
                 Useful.correctView(that.body);
                 slider.slidePage(new AboutUs({message_count:that.message_count}).$el);               
              });
+        },
+                
+                
+        getAlbums: function (id) {
+
+            require(["app/models/album", "app/views/AlbumList"], function (model, AlbumList) {
+
+                if(typeof(albums)==='undefined' || albums===null){
+                    albums = new model.AlbumCollection();
+                    
+                    albums.fetch({
+                        full_url: false,
+                        success: function (collection) {
+                            Useful.correctView(that.body);
+                            slider.slidePage(new AlbumList({collection: collection, message_count:that.message_count}).$el);                          
+                        }
+                    });
+                }
+                else{
+                    Useful.correctView(that.body);
+                    slider.slidePage(new AlbumList({collection: albums, message_count:that.message_count}).$el);
+                }
+                            
+            });
+        },
+        
+        
+        getPhotos: function (id) {
+            require(["app/models/photo", "app/views/PhotoList"], function (model, PhotoList) {
+                
+                    if(typeof(photos)!=='undefined' && photos!==null){
+                        photos.reset();
+                    }
+                    
+                    photos = new model.PhotoCollection([], { album_id: id });
+ 
+                    photos.fetch({
+                        full_url: false,
+                        success: function (collection) {
+                            Useful.correctView(that.body);
+                            
+                            console.log('collection length is ');
+                            console.log(collection.length);
+                            var photoView = new PhotoList({collection: collection, 
+                                                           album_name:albums.get(id).get('name'), 
+                                                            message_count:that.message_count});
+                            slider.slidePage(photoView.$el);   
+                            //photoView.initMasonary();
+                            
+                        }
+                    });
+                                 
+            });
+        },
+        
+        
+        getPhotoItem: function (id) {
+            //body.removeClass('left-nav');
+            require(["app/views/PhotoItem"], function (PhotoItem) {
+                 Useful.correctView(that.body);
+                 slider.slidePage(new PhotoItem({model: photos.get(id), message_count:that.message_count}).$el);
+                           
+            });
         },
                 
         updateMessageCounter: function(){
