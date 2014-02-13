@@ -39,9 +39,6 @@ define(function (require) {
                     title = $(this).find('title:first').text();
                     album_id = $(this).find('id:last').text();
                     updated = $(this).find('updated').text();
-                    
-                    console.log('title is ');
-                    console.log(title);
          
                     var t = updated.indexOf("T");
                     if(t !== -1){

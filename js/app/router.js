@@ -111,7 +111,7 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             if(Backbone.history.fragment==="" || Backbone.history.fragment==="news"){
@@ -138,7 +138,7 @@ define(function (require) {
                     calendar = new model.CalendarCollection();
                     
                     calendar.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             slider.slidePage(new CalendarList({collection: collection, message_count:that.message_count}).$el);                          
@@ -382,7 +382,7 @@ define(function (require) {
                     albums = new model.AlbumCollection();
                     
                     albums.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             slider.slidePage(new AlbumList({collection: collection, message_count:that.message_count}).$el);                          
@@ -408,12 +408,10 @@ define(function (require) {
                     photos = new model.PhotoCollection([], { album_id: id });
  
                     photos.fetch({
-                        full_url: false,
+                        full_url: true,
                         success: function (collection) {
                             Useful.correctView(that.body);
-                            
-                            console.log('collection length is ');
-                            console.log(collection.length);
+
                             var photoView = new PhotoList({collection: collection, 
                                                            album_name:albums.get(id).get('name'), 
                                                             message_count:that.message_count});

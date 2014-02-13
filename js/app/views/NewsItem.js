@@ -27,7 +27,7 @@ define(function (require) {
         
         linkClicked: function(e){
     
-            console.log('in linkClicked');
+            e.preventDefault();
     
             var href = $(e.currentTarget).attr('href');
             
