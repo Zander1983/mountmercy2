@@ -32,13 +32,16 @@ define(function (require) {
         linkClicked:function (e) {    
             e.preventDefault();
             var url = $(e.currentTarget).attr("rel"); 
-            this.loadURL(url);
-        },
-                
-        loadURL: function (url){
+
+            if (window.device.platform == 'android' || window.device.platform == 'Android') {
+                //Android ONLY - ios can you inAppBrowser
                 navigator.app.loadUrl(url, { openExternal:true });
-                return false; 
-        }
+
+            }
+            else{
+                window.open(url, '_blank');
+            }
+        },
         
 
     });
