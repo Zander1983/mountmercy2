@@ -193,16 +193,15 @@ var app = {
         }
         
         var pushNotification = window.plugins.pushNotification;
-        if (event.alert) {
+        /*if (event.alert) {
  
             navigator.notification.alert(event.alert);
-        }
+        }*/
         if (event.badge) {
 
             pushNotification.setApplicationIconBadgeNumber(this.successHandler, event.badge);
         }
         if (event.sound) {
-            console.log('in event.sound');
             var snd = new Media(event.sound);
             snd.play();
         }
