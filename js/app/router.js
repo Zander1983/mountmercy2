@@ -111,7 +111,7 @@ define(function (require) {
                     news = new model.NewsCollection();
                     
                     news.fetch({
-                        full_url: true,
+                        full_url: false,
                         success: function (collection) {
                             Useful.correctView(that.body);
                             if(Backbone.history.fragment==="" || Backbone.history.fragment==="news"){
@@ -157,7 +157,7 @@ define(function (require) {
 
             require(["app/views/NewsItem"], function (NewsItem) {
                  Useful.correctView(that.body);
-                 slider.slidePage(new NewsItem({model: news.get(id), message_count:that.message_count}).$el);
+               //  slider.slidePage(new NewsItem({model: news.get(id), message_count:that.message_count}).$el);
                                  
             });
         },

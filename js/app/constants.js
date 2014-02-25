@@ -7,5 +7,6 @@
         project_number = "475226855592", 
         server_url = "http://push.schoolspace.ie", 
         standard_device_id = "63843", 
-        standard_api_key = "hv7Vgd4jsbb";    
+        standard_api_key = "hv7Vgd4jsbb",
+        in_browser = true;  
 
